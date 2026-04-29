@@ -1,0 +1,29 @@
+{
+  "name": "luton-prayer-times-data",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TypeScript scraper + static JSON artifacts for Luton Prayer Times app (mosque-index.json and data/<slug>.json).",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.4"
+  },
+  "scripts": {
+    "refresh": "tsx scripts/refresh-cache.ts",
+    "refresh:all": "tsx scripts/refresh-cache.ts --all",
+    "refresh:one": "tsx scripts/refresh-cache.ts --mosque=",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "node -e \"console.log('no tests yet')\""
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "cheerio": "^1.1.2",
+    "csv-parse": "^6.1.0",
+    "puppeteer": "^24.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
+

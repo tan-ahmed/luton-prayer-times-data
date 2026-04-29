@@ -1,0 +1,50 @@
+name: Refresh prayer time JSON
+
+on:
+  schedule:
+    - cron: "15 0 * * *" # daily 00:15 UTC
+  workflow_dispatch:
+    inputs:
+      mosque:
+        description: "Optional mosque slug(s), comma-separated (e.g. masjid-e-noor,zuhri-academy). Leave blank to refresh all."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Refresh JSON
+        run: |
+          if [ -n "${{ github.event.inputs.mosque }}" ]; then
+            npm run refresh -- --mosque=${{ github.event.inputs.mosque }}
+          else
+            npm run refresh
+          fi
+
+      - name: Commit and push
+        run: |
+          git status --porcelain
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git add -A
+          git commit -m "chore(data): refresh prayer times"
+          git push
+
