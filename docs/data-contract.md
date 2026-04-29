@@ -50,3 +50,56 @@ Notes:
 - Times are **HH:MM** (24h).
 - `lastChecked`, `isStale`, and `staleReason` are optional metadata used for transparency and month rollovers.
 
+## TypeScript types (copy/paste)
+
+Source of truth: `src/types.ts`.
+
+```ts
+export interface PrayerTiming {
+  day: string;
+  /** DD-MM-YYYY */
+  date: string;
+  fajr: string;
+  zuhr: string;
+  asr: string;
+  magrib: string;
+  isha: string;
+}
+
+export interface MosqueData {
+  mosqueName: string;
+  timings: PrayerTiming[];
+  lastChecked?: string;
+  isStale?: boolean;
+  staleReason?: string;
+}
+
+export interface MosqueIndexEntry {
+  name: string;
+  slug: string;
+  dataFile: string;
+  hasData: boolean;
+  /** Reserved for future expansion; kept for compatibility with existing schema. */
+  jummahSchedule?: unknown;
+}
+
+export interface MosqueIndex {
+  mosques: MosqueIndexEntry[];
+  lastUpdated: string;
+}
+```
+
+## Example usage
+
+```ts
+const base = process.env.MOSQUE_DATA_BASE_URL!;
+
+const index = (await fetch(`${base}/mosque-index.json`).then((r) => r.json())) as MosqueIndex;
+const first = index.mosques.find((m) => m.hasData);
+
+if (first) {
+  const data = (await fetch(`${base}/${first.dataFile}`).then((r) => r.json())) as MosqueData;
+  console.log(data.mosqueName, data.timings[0]);
+}
+```
+
