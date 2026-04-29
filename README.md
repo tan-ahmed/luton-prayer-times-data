@@ -9,6 +9,8 @@ This repository generates and hosts **static JSON** artifacts consumed by the Lu
 
 These match the paths used by `MOSQUE_DATA_BASE_URL` in the app.
 
+## Quick start
+
 ## Local usage
 
 ```bash
@@ -26,6 +28,10 @@ npm run refresh:one -- --mosque=masjid-suffa-tul-islam
 
 ## GitHub Actions
 
-- Daily scheduled refresh
-- Manual refresh with optional `mosque` input (comma-separated slugs)
+- **Daily scheduled refresh**: runs at **00:00 UTC** and commits any changes.
+- **Manual refresh**: Actions → “Refresh prayer time JSON” → Run workflow, with optional `mosque` input (comma-separated slugs).
+
+## Docs
+
+See [`docs/`](docs/) for architecture, data contract, and workflow details.
 
