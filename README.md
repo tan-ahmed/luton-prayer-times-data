@@ -19,6 +19,9 @@ npm run refresh
 
 # Refresh one or more mosques
 npm run refresh -- --mosque=masjid-e-noor,zuhri-academy
+
+# Refresh exactly one mosque (same script; just pass one slug)
+npm run refresh:one -- --mosque=masjid-suffa-tul-islam
 ```
 
 ## GitHub Actions

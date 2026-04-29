@@ -130,8 +130,8 @@ export const mosqueUrls: MosqueConfig[] = [
     name: "Masjid Suffa-Tul-Islam",
     slug: "masjid-suffa-tul-islam",
     url: "https://www.inspirefm.org/view-prayer-timings/masjid-suffa-tul-islam?refkey=wXzyqvR4jtutql3",
-    wpUrl:
-      "https://suffatulislamluton.co.uk/wp-json/dpt/v1/prayertime?filter=month",
+    masjidBoxApi:
+      "https://api.masjidbox.com/1.0/masjidbox/landing/athany/suffa-tul-islam-luton",
   },
   {
     name: "Masjid-e-Ali",

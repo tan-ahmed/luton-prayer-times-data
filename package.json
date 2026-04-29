@@ -9,8 +9,8 @@
   },
   "scripts": {
     "refresh": "tsx scripts/refresh-cache.ts",
-    "refresh:all": "tsx scripts/refresh-cache.ts --all",
-    "refresh:one": "tsx scripts/refresh-cache.ts --mosque=",
+    "refresh:all": "tsx scripts/refresh-cache.ts",
+    "refresh:one": "tsx scripts/refresh-cache.ts",
     "lint": "tsc -p tsconfig.json --noEmit",
     "test": "node -e \"console.log('no tests yet')\""
   },
