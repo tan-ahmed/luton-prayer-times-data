@@ -154,7 +154,7 @@
       "name": "Saints Area Masjid",
       "slug": "saints-area-masjid",
       "dataFile": "data/saints-area-masjid.json",
-      "hasData": false
+      "hasData": true
     },
     {
       "name": "Turkish Community Assoc",
@@ -181,5 +181,5 @@
       "hasData": true
     }
   ],
-  "lastUpdated": "2026-05-14T00:54:35.876Z"
+  "lastUpdated": "2026-05-15T00:51:47.034Z"
 }
