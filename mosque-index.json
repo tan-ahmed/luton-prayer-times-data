@@ -4,7 +4,7 @@
       "name": "Al Furqan",
       "slug": "al-furqan",
       "dataFile": "data/al-furqan.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Al Hira Centre",
@@ -181,5 +181,5 @@
       "hasData": true
     }
   ],
-  "lastUpdated": "2026-05-19T00:56:02.150Z"
+  "lastUpdated": "2026-05-20T00:57:40.452Z"
 }
