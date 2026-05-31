@@ -274,13 +274,13 @@
     {
       "day": "Sunday",
       "date": "31-05-2026",
-      "fajr": "04:00",
+      "fajr": "04:10",
       "zuhr": "13:30",
       "asr": "19:40",
       "magrib": "21:16",
-      "isha": "22:50"
+      "isha": "22:40"
     }
   ],
-  "lastChecked": "2026-05-30T00:54:59.429Z",
+  "lastChecked": "2026-05-31T00:59:46.990Z",
   "isStale": false
 }
