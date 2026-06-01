@@ -11,6 +11,7 @@
       "isha": "22:45"
     }
   ],
-  "lastChecked": "2026-05-31T00:59:36.834Z",
-  "isStale": false
+  "lastChecked": "2026-06-01T01:02:44.253Z",
+  "isStale": true,
+  "staleReason": "No new data available for current month"
 }
