@@ -22,7 +22,7 @@
       "name": "Bait Ul Abrar Jamia Masjid",
       "slug": "bait-ul-abrar-jamia-masjid",
       "dataFile": "data/bait-ul-abrar-jamia-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Bury Park Jamia Masjid",
@@ -181,5 +181,5 @@
       "hasData": true
     }
   ],
-  "lastUpdated": "2026-06-09T00:55:45.533Z"
+  "lastUpdated": "2026-06-10T01:02:27.737Z"
 }
