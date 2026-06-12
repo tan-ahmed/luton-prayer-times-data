@@ -16,13 +16,13 @@
       "name": "Al Jalal Masjid",
       "slug": "al-jalal-masjid",
       "dataFile": "data/al-jalal-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Bait Ul Abrar Jamia Masjid",
       "slug": "bait-ul-abrar-jamia-masjid",
       "dataFile": "data/bait-ul-abrar-jamia-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Bury Park Jamia Masjid",
@@ -58,7 +58,7 @@
       "name": "Jalalabad Jamia Masjid",
       "slug": "jalalabad-jamia-masjid",
       "dataFile": "data/jalalabad-jamia-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Jamia Al-Akbaria",
@@ -70,7 +70,7 @@
       "name": "Jamia Islamia Ghousia Trust",
       "slug": "jamia-islamia-ghousia-trust",
       "dataFile": "data/jamia-islamia-ghousia-trust.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Kokni Masjid",
@@ -112,7 +112,7 @@
       "name": "Masjid Al-Huda",
       "slug": "masjid-al-huda",
       "dataFile": "data/masjid-al-huda.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Masjid As-Sunnah",
@@ -142,13 +142,13 @@
       "name": "Masjid-e-Ali",
       "slug": "masjid-e-ali",
       "dataFile": "data/masjid-e-ali.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Masjid-e-Noor",
       "slug": "masjid-e-noor",
       "dataFile": "data/masjid-e-noor.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Saints Area Masjid",
@@ -166,7 +166,7 @@
       "name": "Yusuf Hall",
       "slug": "yusuf-hall",
       "dataFile": "data/yusuf-hall.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Zakariya Masjid",
@@ -178,8 +178,8 @@
       "name": "Zuhri Academy",
       "slug": "zuhri-academy",
       "dataFile": "data/zuhri-academy.json",
-      "hasData": true
+      "hasData": false
     }
   ],
-  "lastUpdated": "2026-06-11T01:01:36.215Z"
+  "lastUpdated": "2026-06-12T01:05:55.575Z"
 }
