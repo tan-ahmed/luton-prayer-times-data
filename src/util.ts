@@ -116,6 +116,25 @@ function isValidUtcYmd(y: string, m: string, d: string): boolean {
   return dt.getUTCFullYear() === yearNum && dt.getUTCMonth() === monthNum - 1 && dt.getUTCDate() === dayNum;
 }
 
+/** True when the body looks like a WordPress prayer-time month payload (not HTML/error). */
+export function isValidWordPressPayload(wpData: unknown): boolean {
+  if (!Array.isArray(wpData) || wpData.length === 0) return false;
+
+  let days: unknown[] = wpData;
+  const first = wpData[0];
+  if (Array.isArray(first) && first.length > 0) {
+    days = first;
+  }
+
+  return days.some(
+    (d) =>
+      typeof d === "object" &&
+      d !== null &&
+      "d_date" in d &&
+      typeof (d as Record<string, unknown>).d_date === "string",
+  );
+}
+
 export function transformWordPressData(wpData: unknown): PrayerTiming[] {
   if (!Array.isArray(wpData) || wpData.length === 0) return [];
 

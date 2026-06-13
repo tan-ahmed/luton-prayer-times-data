@@ -21,6 +21,7 @@ import {
   transformMawaqitData,
   transformSupabaseData,
   transformWordPressData,
+  isValidWordPressPayload,
 } from "./util";
 
 export interface ScrapeOptions {
@@ -89,21 +90,68 @@ const GOOGLE_SHEET_MOSQUES: Record<string, string> = {
 /** Source priority: WordPress first, then masjidBox, Mawaqit, Supabase; InspireFM last. */
 const SOURCE_ORDER = ["wpUrl", "masjidBoxApi", "mawaqitUrl", "supabaseUrl", "url"] as const;
 
-const WP_API_TIMEOUT_MS = 25_000;
+const WP_API_TIMEOUT_MS = 45_000;
+const WP_MAX_RETRIES = 2;
+const WP_RETRY_DELAYS_MS = [2000, 4000];
 
-function formatFetchError(err: unknown, state: { sawHttp403: boolean }): string {
+type FailureReason = "blocked" | "timeout" | "invalid" | "rate_limited" | "server_error" | null;
+
+interface FetchState {
+  transientFailure: boolean;
+  failureReason: FailureReason;
+}
+
+function isRetryableWpError(err: unknown): boolean {
   const status = (err as { response?: { status?: number } })?.response?.status;
-  if (status === 403) state.sawHttp403 = true;
+  if (status && status >= 500) return true;
+  const msg = err instanceof Error ? err.message : String(err);
+  if (msg.includes("timeout") || msg.includes("ECONNABORTED")) return true;
+  return !status;
+}
+
+function noteTransientFailure(err: unknown, state: FetchState): string {
+  const status = (err as { response?: { status?: number } })?.response?.status;
+  const msg = err instanceof Error ? err.message : String(err);
+
+  if (status === 403) {
+    state.transientFailure = true;
+    state.failureReason = "blocked";
+    return `HTTP ${status}`;
+  }
+  if (status === 429) {
+    state.transientFailure = true;
+    state.failureReason = "rate_limited";
+    return `HTTP ${status}`;
+  }
+  if (status && status >= 500) {
+    state.transientFailure = true;
+    state.failureReason = "server_error";
+    return `HTTP ${status}`;
+  }
+  if (msg.includes("timeout") || msg.includes("ECONNABORTED")) {
+    state.transientFailure = true;
+    state.failureReason = "timeout";
+    return msg;
+  }
   if (status) return `HTTP ${status}`;
-  return err instanceof Error ? err.message : String(err);
+  return msg;
+}
+
+function staleReasonFromState(state: FetchState): string {
+  if (state.failureReason === "blocked") return "Source blocked (HTTP 403)";
+  if (state.failureReason === "timeout") return "Source timed out";
+  if (state.failureReason === "invalid") return "Source returned invalid response";
+  if (state.failureReason === "rate_limited") return "Source rate limited (HTTP 429)";
+  if (state.failureReason === "server_error") return "Source server error";
+  return "No new data available for current month";
 }
 
 function tryPreserveExistingData(
   filePath: string,
   currentDate: Date,
-  options: { sawHttp403: boolean; dayOfMonth: number },
+  options: { transientFailure: boolean; failureReason: FailureReason; dayOfMonth: number },
 ): boolean {
-  const shouldPreserve = options.sawHttp403 || options.dayOfMonth <= 7;
+  const shouldPreserve = options.transientFailure || options.dayOfMonth <= 7;
   if (!shouldPreserve || !fs.existsSync(filePath)) return false;
 
   try {
@@ -114,9 +162,10 @@ function tryPreserveExistingData(
       ...existingData,
       lastChecked: currentDate.toISOString(),
       isStale: true,
-      staleReason: options.sawHttp403
-        ? "Source blocked (HTTP 403)"
-        : "No new data available for current month",
+      staleReason: staleReasonFromState({
+        transientFailure: options.transientFailure,
+        failureReason: options.failureReason,
+      }),
     };
     saveToFile(filePath, preserved);
     return true;
@@ -125,6 +174,54 @@ function tryPreserveExistingData(
     console.warn(`Could not read existing data at ${filePath}: ${msg}`);
     return false;
   }
+}
+
+async function fetchWordPressTimings(
+  wpUrl: string,
+  slug: string,
+  state: FetchState,
+): Promise<PrayerTiming[]> {
+  console.log(`Trying WordPress API for ${slug}...`);
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt <= WP_MAX_RETRIES; attempt++) {
+    try {
+      const wpResponse = await httpClient.get(wpUrl, { timeout: WP_API_TIMEOUT_MS });
+      if (!isValidWordPressPayload(wpResponse.data)) {
+        state.transientFailure = true;
+        state.failureReason = "invalid";
+        console.warn(`[${slug}] wpUrl returned invalid/empty payload`);
+        return [];
+      }
+      const wpTimings = transformWordPressData(wpResponse.data);
+      if (wpTimings.length === 0) {
+        state.transientFailure = true;
+        state.failureReason = "invalid";
+        console.warn(`[${slug}] wpUrl returned invalid/empty payload`);
+        return [];
+      }
+      console.log(`Successfully fetched ${wpTimings.length} day(s) from WordPress API for ${slug}`);
+      return wpTimings;
+    } catch (err) {
+      lastError = err;
+      const msg = noteTransientFailure(err, state);
+      if (attempt < WP_MAX_RETRIES && isRetryableWpError(err)) {
+        const delay = WP_RETRY_DELAYS_MS[attempt] ?? 4000;
+        console.warn(
+          `[${slug}] WordPress API attempt ${attempt + 1}/${WP_MAX_RETRIES + 1} failed: ${msg}; retrying in ${delay}ms`,
+        );
+        await new Promise((r) => setTimeout(r, delay));
+        continue;
+      }
+      console.warn(`WordPress API failed for ${slug}: ${msg}`);
+      return [];
+    }
+  }
+
+  if (lastError) {
+    console.warn(`WordPress API failed for ${slug}: ${noteTransientFailure(lastError, state)}`);
+  }
+  return [];
 }
 
 function hasSource(config: MosqueConfig, source: (typeof SOURCE_ORDER)[number]): boolean {
@@ -136,12 +233,12 @@ async function trySource(
   config: MosqueConfig,
   timings: PrayerTiming[],
   mosqueNameRef: { current: string },
+  fetchState: FetchState,
 ): Promise<boolean> {
   switch (source) {
     case "wpUrl": {
       if (!config.wpUrl) return false;
-      const wpResponse = await httpClient.get(config.wpUrl, { timeout: WP_API_TIMEOUT_MS });
-      const wpTimings = transformWordPressData(wpResponse.data);
+      const wpTimings = await fetchWordPressTimings(config.wpUrl, config.slug, fetchState);
       if (wpTimings.length > 0) timings.push(...wpTimings);
       return wpTimings.length > 0;
     }
@@ -198,7 +295,7 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
   const filePath = path.join(dataDir, `${config.slug}.json`);
   let mosqueName = config.name;
   const timings: PrayerTiming[] = [];
-  const fetchState = { sawHttp403: false };
+  const fetchState: FetchState = { transientFailure: false, failureReason: null };
 
   try {
     // Special cases (website scrapers)
@@ -211,7 +308,7 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
           const sbTimings = transformSupabaseData(monthData);
           if (sbTimings.length > 0) timings.push(...sbTimings);
         } catch (err) {
-          console.warn(`[Bury Park] Supabase failed: ${formatFetchError(err, fetchState)}`);
+          console.warn(`[Bury Park] Supabase failed: ${noteTransientFailure(err, fetchState)}`);
         }
       }
       if (config.websiteUrl && timings.length === 0) {
@@ -312,10 +409,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
         if (timings.length > 0) break;
         if (!hasSource(config, source)) continue;
         try {
-          await trySource(source, config, timings, mosqueNameRef);
+          await trySource(source, config, timings, mosqueNameRef, fetchState);
           mosqueName = mosqueNameRef.current;
         } catch (err) {
-          console.warn(`[${config.slug}] ${source} failed: ${formatFetchError(err, fetchState)}`);
+          console.warn(`[${config.slug}] ${source} failed: ${noteTransientFailure(err, fetchState)}`);
         }
       }
     }
@@ -338,7 +435,8 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
     if (
       timings.length === 0 &&
       tryPreserveExistingData(filePath, currentDate, {
-        sawHttp403: fetchState.sawHttp403,
+        transientFailure: fetchState.transientFailure,
+        failureReason: fetchState.failureReason,
         dayOfMonth,
       })
     ) {
