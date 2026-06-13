@@ -87,7 +87,7 @@ const GOOGLE_SHEET_MOSQUES: Record<string, string> = {
   "luton-central-masjid": "Luton Central",
 };
 
-/** Source priority: WordPress first, then masjidBox, Mawaqit, Supabase; InspireFM last. */
+/** Source priority: WordPress first, then masjidBox, Mawaqit, Supabase; InspireFM last (only when no wpUrl). */
 const SOURCE_ORDER = ["wpUrl", "masjidBoxApi", "mawaqitUrl", "supabaseUrl", "url"] as const;
 
 const WP_API_TIMEOUT_MS = 45_000;
@@ -146,6 +146,19 @@ function staleReasonFromState(state: FetchState): string {
   return "No new data available for current month";
 }
 
+/** True when timings include at least one entry for the calendar month of `date`. */
+function timingsCoverCurrentMonth(timings: PrayerTiming[], date: Date): boolean {
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return timings.some((t) => {
+    const parts = t.date.split("-");
+    if (parts.length !== 3) return false;
+    const timingMonth = Number(parts[1]);
+    const timingYear = Number(parts[2]);
+    return timingMonth === month && timingYear === year;
+  });
+}
+
 function tryPreserveExistingData(
   filePath: string,
   currentDate: Date,
@@ -158,14 +171,20 @@ function tryPreserveExistingData(
     const existingData = JSON.parse(fs.readFileSync(filePath, "utf8")) as MosqueData;
     if (!existingData.timings?.length) return false;
 
+    const coversCurrentMonth = timingsCoverCurrentMonth(existingData.timings, currentDate);
+    const { staleReason: _removed, ...rest } = existingData;
     const preserved: MosqueData = {
-      ...existingData,
+      ...rest,
       lastChecked: currentDate.toISOString(),
-      isStale: true,
-      staleReason: staleReasonFromState({
-        transientFailure: options.transientFailure,
-        failureReason: options.failureReason,
-      }),
+      isStale: !coversCurrentMonth,
+      ...(coversCurrentMonth
+        ? {}
+        : {
+            staleReason: staleReasonFromState({
+              transientFailure: options.transientFailure,
+              failureReason: options.failureReason,
+            }),
+          }),
     };
     saveToFile(filePath, preserved);
     return true;

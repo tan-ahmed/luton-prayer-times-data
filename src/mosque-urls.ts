@@ -4,7 +4,6 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Al Hira Centre",
     slug: "al-hira-centre",
-    url: "https://www.inspirefm.org/view-prayer-timings/al-hira-centre?refkey=H69pKMxtH1Kztwe",
     wpUrl: "https://alhiraluton.org.uk/wp-json/dpt/v1/prayertime?filter=month",
   },
   {
@@ -16,14 +15,12 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Jalalabad Jamia Masjid",
     slug: "jalalabad-jamia-masjid",
-    url: "https://www.inspirefm.org/view-prayer-timings/jalalabad-jamia-masjid?refkey=sUwxYOInm6JyotH",
     wpUrl:
       "https://www.jalalabadmasjid.org.uk/wp-json/dpt/v1/prayertime?filter=month",
   },
   {
     name: "Al Jalal Masjid",
     slug: "al-jalal-masjid",
-    url: "https://www.inspirefm.org/view-prayer-timings/al-jalal-masjid?refkey=j8PEK3D8ML97xM3",
     wpUrl: "https://aljalalmasjid.org/wp-json/dpt/v1/prayertime?filter=month",
   },
   {
@@ -49,7 +46,6 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Hockwell Ring Masjid",
     slug: "hockwell-ring-masjid",
-    url: "https://www.inspirefm.org/view-prayer-timings/hockwell-ring-masjid?refkey=5ykxLZeGUjOoh8U",
     wpUrl:
       "https://hockwellringmasjid.org.uk/wp-json/dpt/v1/prayertime?filter=month",
   },
@@ -75,7 +71,6 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Leagrave Hall Masjid",
     slug: "leagrave-hall-masjid",
-    url: "https://www.inspirefm.org/view-prayer-timings/leagrave-hall-masjid?refkey=NoEtlOSFgfnWqKe",
     wpUrl:
       "https://leagravehallmasjid.com/wp-json/dpt/v1/prayertime?filter=month",
   },
@@ -99,7 +94,6 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Kokni Masjid",
     slug: "kokni-masjid",
-    url: "https://www.inspirefm.org/view-prayer-timings/kokni-masjid?refkey=e31KjldaiV1piny",
     wpUrl:
       "https://masjid.kokniluton.co.uk/wp-json/dpt/v1/prayertime?filter=month",
   },
@@ -111,7 +105,6 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Masjid As-Sunnah",
     slug: "masjid-as-sunnah",
-    url: "https://www.inspirefm.org/view-prayer-timings/masjid-as-sunnah?refkey=4k5QdbC1Z1DVB9e",
     wpUrl:
       "https://masjidussunnah.co.uk/wp-json/dpt/v1/prayertime?filter=month",
   },
@@ -142,7 +135,6 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Masjid-e-Noor",
     slug: "masjid-e-noor",
-    url: "https://www.inspirefm.org/view-prayer-timings/masjid-e-noor?refkey=jmwgz9T4vEaeLPq",
     wpUrl:
       "https://www.masjidnoorluton.com/wp-json/dpt/v1/prayertime?filter=month",
   },
@@ -165,14 +157,12 @@ export const mosqueUrls: MosqueConfig[] = [
   {
     name: "Zakariya Masjid",
     slug: "zakariya-masjid",
-    url: "https://www.inspirefm.org/view-prayer-timings/zakariya-masjid?refkey=6NHPZpjAgFaicdr",
     wpUrl:
       "http://zakariyamasjid.org.uk/wp-json/dpt/v1/prayertime?filter=month",
   },
   {
     name: "Zuhri Academy",
     slug: "zuhri-academy",
-    url: "https://www.inspirefm.org/view-prayer-timings/zuhri-academy?refkey=isRqMqaSStYbjcp",
     wpUrl: "https://zuhriacademy.com/wp-json/dpt/v1/prayertime?filter=month",
   },
   {
