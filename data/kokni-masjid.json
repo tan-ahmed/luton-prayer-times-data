@@ -272,6 +272,7 @@
       "isha": "23:00"
     }
   ],
-  "lastChecked": "2026-06-13T13:59:19.204Z",
-  "isStale": false
+  "lastChecked": "2026-06-13T14:01:22.519Z",
+  "isStale": true,
+  "staleReason": "Source blocked (HTTP 403)"
 }
