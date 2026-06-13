@@ -25,11 +25,9 @@ export function addMonthToMosqueConfigs<T extends { url?: string }>(configs: T[]
   }));
 }
 
+// No custom User-Agent: SiteGround WAF blocks Mozilla-prefixed bot strings; axios default works.
 export const httpClient = axios.create({
   timeout: 10000,
-  headers: {
-    "User-Agent": "Mozilla/5.0 (compatible; PrayerTimesScraper/1.0)",
-  },
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
   }),

@@ -86,10 +86,46 @@ const GOOGLE_SHEET_MOSQUES: Record<string, string> = {
   "luton-central-masjid": "Luton Central",
 };
 
-/** Source priority: WordPress first (full month), then InspireFM, then masjidBox, Mawaqit, Supabase. */
-const SOURCE_ORDER = ["wpUrl", "url", "masjidBoxApi", "mawaqitUrl", "supabaseUrl"] as const;
+/** Source priority: WordPress first, then masjidBox, Mawaqit, Supabase; InspireFM last. */
+const SOURCE_ORDER = ["wpUrl", "masjidBoxApi", "mawaqitUrl", "supabaseUrl", "url"] as const;
 
 const WP_API_TIMEOUT_MS = 25_000;
+
+function formatFetchError(err: unknown, state: { sawHttp403: boolean }): string {
+  const status = (err as { response?: { status?: number } })?.response?.status;
+  if (status === 403) state.sawHttp403 = true;
+  if (status) return `HTTP ${status}`;
+  return err instanceof Error ? err.message : String(err);
+}
+
+function tryPreserveExistingData(
+  filePath: string,
+  currentDate: Date,
+  options: { sawHttp403: boolean; dayOfMonth: number },
+): boolean {
+  const shouldPreserve = options.sawHttp403 || options.dayOfMonth <= 7;
+  if (!shouldPreserve || !fs.existsSync(filePath)) return false;
+
+  try {
+    const existingData = JSON.parse(fs.readFileSync(filePath, "utf8")) as MosqueData;
+    if (!existingData.timings?.length) return false;
+
+    const preserved: MosqueData = {
+      ...existingData,
+      lastChecked: currentDate.toISOString(),
+      isStale: true,
+      staleReason: options.sawHttp403
+        ? "Source blocked (HTTP 403)"
+        : "No new data available for current month",
+    };
+    saveToFile(filePath, preserved);
+    return true;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`Could not read existing data at ${filePath}: ${msg}`);
+    return false;
+  }
+}
 
 function hasSource(config: MosqueConfig, source: (typeof SOURCE_ORDER)[number]): boolean {
   return Boolean(config[source]);
@@ -162,6 +198,7 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
   const filePath = path.join(dataDir, `${config.slug}.json`);
   let mosqueName = config.name;
   const timings: PrayerTiming[] = [];
+  const fetchState = { sawHttp403: false };
 
   try {
     // Special cases (website scrapers)
@@ -174,8 +211,7 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
           const sbTimings = transformSupabaseData(monthData);
           if (sbTimings.length > 0) timings.push(...sbTimings);
         } catch (err) {
-          const msg = err instanceof Error ? err.message : String(err);
-          console.warn(`[Bury Park] Supabase failed: ${msg}`);
+          console.warn(`[Bury Park] Supabase failed: ${formatFetchError(err, fetchState)}`);
         }
       }
       if (config.websiteUrl && timings.length === 0) {
@@ -279,8 +315,7 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
           await trySource(source, config, timings, mosqueNameRef);
           mosqueName = mosqueNameRef.current;
         } catch (err) {
-          const msg = (err as any)?.response?.status ? `HTTP ${(err as any).response.status}` : (err instanceof Error ? err.message : String(err));
-          console.warn(`[${config.slug}] ${source} failed: ${msg}`);
+          console.warn(`[${config.slug}] ${source} failed: ${formatFetchError(err, fetchState)}`);
         }
       }
     }
@@ -300,24 +335,14 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
     const currentDate = new Date();
     const dayOfMonth = currentDate.getDate();
 
-    // Preserve previous month's data in the first 7 days if new data is empty.
-    if (timings.length === 0 && dayOfMonth <= 7 && fs.existsSync(filePath)) {
-      try {
-        const existingData = JSON.parse(fs.readFileSync(filePath, "utf8")) as MosqueData;
-        if (existingData.timings && existingData.timings.length > 0) {
-          const preserved: MosqueData = {
-            ...existingData,
-            lastChecked: currentDate.toISOString(),
-            isStale: true,
-            staleReason: "No new data available for current month",
-          };
-          saveToFile(filePath, preserved);
-          return;
-        }
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
-        console.warn(`[${config.slug}] Could not read existing data: ${msg}`);
-      }
+    if (
+      timings.length === 0 &&
+      tryPreserveExistingData(filePath, currentDate, {
+        sawHttp403: fetchState.sawHttp403,
+        dayOfMonth,
+      })
+    ) {
+      return;
     }
 
     const mosqueData: MosqueData = {
