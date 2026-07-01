@@ -160,7 +160,7 @@
       "name": "Turkish Community Assoc",
       "slug": "turkish-community-assoc",
       "dataFile": "data/turkish-community-assoc.json",
-      "hasData": false
+      "hasData": true
     },
     {
       "name": "Yusuf Hall",
@@ -181,5 +181,5 @@
       "hasData": true
     }
   ],
-  "lastUpdated": "2026-06-30T00:57:11.743Z"
+  "lastUpdated": "2026-07-01T01:00:33.000Z"
 }

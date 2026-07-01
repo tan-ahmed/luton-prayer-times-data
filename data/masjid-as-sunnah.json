@@ -272,6 +272,7 @@
       "isha": "23:20"
     }
   ],
-  "lastChecked": "2026-06-30T00:57:00.164Z",
-  "isStale": false
+  "lastChecked": "2026-07-01T01:00:20.777Z",
+  "isStale": true,
+  "staleReason": "Source returned invalid response"
 }
