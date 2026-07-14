@@ -58,7 +58,7 @@
       "name": "Jalalabad Jamia Masjid",
       "slug": "jalalabad-jamia-masjid",
       "dataFile": "data/jalalabad-jamia-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Jamia Al-Akbaria",
@@ -148,7 +148,7 @@
       "name": "Masjid-e-Noor",
       "slug": "masjid-e-noor",
       "dataFile": "data/masjid-e-noor.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Saints Area Masjid",
@@ -181,5 +181,5 @@
       "hasData": true
     }
   ],
-  "lastUpdated": "2026-07-13T02:53:24.486Z"
+  "lastUpdated": "2026-07-14T02:34:19.759Z"
 }
