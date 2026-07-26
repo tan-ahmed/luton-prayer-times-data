@@ -8,7 +8,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:29",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:46",
+      "begins": {
+        "fajr": "02:51",
+        "zuhr": "13:14",
+        "asr": "18:21",
+        "magrib": "21:24",
+        "isha": "22:37",
+        "asrMithl1": "18:43",
+        "asrMithl2": "18:21"
+      }
     },
     {
       "day": "Thursday",
@@ -17,7 +27,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:28",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:47",
+      "begins": {
+        "fajr": "02:52",
+        "zuhr": "13:14",
+        "asr": "18:43",
+        "magrib": "21:23",
+        "isha": "22:37",
+        "asrMithl1": "18:42",
+        "asrMithl2": "18:43"
+      }
     },
     {
       "day": "Friday",
@@ -26,7 +46,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:28",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:48",
+      "begins": {
+        "fajr": "02:52",
+        "zuhr": "13:14",
+        "asr": "18:42",
+        "magrib": "21:23",
+        "isha": "22:37",
+        "asrMithl1": "18:42",
+        "asrMithl2": "18:42"
+      }
     },
     {
       "day": "Saturday",
@@ -35,7 +65,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:27",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:48",
+      "begins": {
+        "fajr": "02:53",
+        "zuhr": "13:14",
+        "asr": "18:42",
+        "magrib": "21:22",
+        "isha": "22:36",
+        "asrMithl1": "18:42",
+        "asrMithl2": "18:42"
+      }
     },
     {
       "day": "Sunday",
@@ -44,7 +84,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:27",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:49",
+      "begins": {
+        "fajr": "02:54",
+        "zuhr": "13:14",
+        "asr": "18:42",
+        "magrib": "21:22",
+        "isha": "22:36",
+        "asrMithl1": "18:42",
+        "asrMithl2": "18:42"
+      }
     },
     {
       "day": "Monday",
@@ -53,7 +103,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:26",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:50",
+      "begins": {
+        "fajr": "02:55",
+        "zuhr": "13:15",
+        "asr": "18:42",
+        "magrib": "21:21",
+        "isha": "22:35",
+        "asrMithl1": "18:42",
+        "asrMithl2": "18:42"
+      }
     },
     {
       "day": "Tuesday",
@@ -62,7 +122,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:26",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:51",
+      "begins": {
+        "fajr": "02:56",
+        "zuhr": "13:15",
+        "asr": "18:42",
+        "magrib": "21:21",
+        "isha": "22:34",
+        "asrMithl1": "18:42",
+        "asrMithl2": "18:42"
+      }
     },
     {
       "day": "Wednesday",
@@ -71,7 +141,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:25",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:52",
+      "begins": {
+        "fajr": "02:57",
+        "zuhr": "13:15",
+        "asr": "18:42",
+        "magrib": "21:20",
+        "isha": "22:34",
+        "asrMithl1": "18:41",
+        "asrMithl2": "18:42"
+      }
     },
     {
       "day": "Thursday",
@@ -80,7 +160,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:24",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:53",
+      "begins": {
+        "fajr": "02:58",
+        "zuhr": "13:15",
+        "asr": "18:41",
+        "magrib": "21:19",
+        "isha": "22:33",
+        "asrMithl1": "18:41",
+        "asrMithl2": "18:41"
+      }
     },
     {
       "day": "Friday",
@@ -89,7 +179,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:23",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:54",
+      "begins": {
+        "fajr": "02:59",
+        "zuhr": "13:15",
+        "asr": "18:41",
+        "magrib": "21:18",
+        "isha": "22:32",
+        "asrMithl1": "18:41",
+        "asrMithl2": "18:41"
+      }
     },
     {
       "day": "Saturday",
@@ -98,7 +198,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:23",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:55",
+      "begins": {
+        "fajr": "03:00",
+        "zuhr": "13:15",
+        "asr": "18:41",
+        "magrib": "21:18",
+        "isha": "22:31",
+        "asrMithl1": "18:40",
+        "asrMithl2": "18:41"
+      }
     },
     {
       "day": "Sunday",
@@ -107,7 +217,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:22",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:56",
+      "begins": {
+        "fajr": "03:01",
+        "zuhr": "13:15",
+        "asr": "18:40",
+        "magrib": "21:17",
+        "isha": "22:31",
+        "asrMithl1": "18:40",
+        "asrMithl2": "18:40"
+      }
     },
     {
       "day": "Monday",
@@ -116,7 +236,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:21",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:57",
+      "begins": {
+        "fajr": "03:02",
+        "zuhr": "13:16",
+        "asr": "18:40",
+        "magrib": "21:16",
+        "isha": "22:30",
+        "asrMithl1": "18:39",
+        "asrMithl2": "18:40"
+      }
     },
     {
       "day": "Tuesday",
@@ -125,7 +255,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:20",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "04:59",
+      "begins": {
+        "fajr": "03:03",
+        "zuhr": "13:16",
+        "asr": "18:39",
+        "magrib": "21:15",
+        "isha": "22:29",
+        "asrMithl1": "18:39",
+        "asrMithl2": "18:39"
+      }
     },
     {
       "day": "Wednesday",
@@ -134,7 +274,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:19",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "05:00",
+      "begins": {
+        "fajr": "03:04",
+        "zuhr": "13:16",
+        "asr": "18:39",
+        "magrib": "21:14",
+        "isha": "22:28",
+        "asrMithl1": "18:38",
+        "asrMithl2": "18:39"
+      }
     },
     {
       "day": "Thursday",
@@ -143,7 +293,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:18",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "05:01",
+      "begins": {
+        "fajr": "03:06",
+        "zuhr": "13:16",
+        "asr": "18:38",
+        "magrib": "21:13",
+        "isha": "22:27",
+        "asrMithl1": "18:38",
+        "asrMithl2": "18:38"
+      }
     },
     {
       "day": "Friday",
@@ -152,7 +312,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:17",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "05:02",
+      "begins": {
+        "fajr": "03:07",
+        "zuhr": "13:16",
+        "asr": "18:38",
+        "magrib": "21:12",
+        "isha": "22:26",
+        "asrMithl1": "18:37",
+        "asrMithl2": "18:38"
+      }
     },
     {
       "day": "Saturday",
@@ -161,7 +331,17 @@
       "zuhr": "13:30",
       "asr": "19:30",
       "magrib": "21:16",
-      "isha": "22:50"
+      "isha": "22:50",
+      "sunrise": "05:03",
+      "begins": {
+        "fajr": "03:08",
+        "zuhr": "13:16",
+        "asr": "18:37",
+        "magrib": "21:11",
+        "isha": "22:25",
+        "asrMithl1": "18:37",
+        "asrMithl2": "18:37"
+      }
     },
     {
       "day": "Sunday",
@@ -170,7 +350,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:14",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:05",
+      "begins": {
+        "fajr": "03:09",
+        "zuhr": "13:16",
+        "asr": "18:37",
+        "magrib": "21:09",
+        "isha": "22:23",
+        "asrMithl1": "18:36",
+        "asrMithl2": "18:37"
+      }
     },
     {
       "day": "Monday",
@@ -179,7 +369,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:13",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:06",
+      "begins": {
+        "fajr": "03:11",
+        "zuhr": "13:16",
+        "asr": "18:36",
+        "magrib": "21:08",
+        "isha": "22:22",
+        "asrMithl1": "18:35",
+        "asrMithl2": "18:36"
+      }
     },
     {
       "day": "Tuesday",
@@ -188,7 +388,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:12",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:07",
+      "begins": {
+        "fajr": "03:12",
+        "zuhr": "13:16",
+        "asr": "18:35",
+        "magrib": "21:07",
+        "isha": "22:21",
+        "asrMithl1": "18:35",
+        "asrMithl2": "18:35"
+      }
     },
     {
       "day": "Wednesday",
@@ -197,7 +407,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:11",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:09",
+      "begins": {
+        "fajr": "03:14",
+        "zuhr": "13:16",
+        "asr": "18:35",
+        "magrib": "21:06",
+        "isha": "22:20",
+        "asrMithl1": "18:34",
+        "asrMithl2": "18:35"
+      }
     },
     {
       "day": "Thursday",
@@ -206,7 +426,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:09",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:10",
+      "begins": {
+        "fajr": "03:15",
+        "zuhr": "13:16",
+        "asr": "18:34",
+        "magrib": "21:04",
+        "isha": "22:18",
+        "asrMithl1": "18:33",
+        "asrMithl2": "18:34"
+      }
     },
     {
       "day": "Friday",
@@ -215,7 +445,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:08",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:12",
+      "begins": {
+        "fajr": "03:16",
+        "zuhr": "13:16",
+        "asr": "18:33",
+        "magrib": "21:03",
+        "isha": "22:17",
+        "asrMithl1": "18:32",
+        "asrMithl2": "18:33"
+      }
     },
     {
       "day": "Saturday",
@@ -224,7 +464,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:07",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:13",
+      "begins": {
+        "fajr": "03:18",
+        "zuhr": "13:16",
+        "asr": "18:32",
+        "magrib": "21:02",
+        "isha": "22:16",
+        "asrMithl1": "18:32",
+        "asrMithl2": "18:32"
+      }
     },
     {
       "day": "Sunday",
@@ -233,7 +483,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:05",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:14",
+      "begins": {
+        "fajr": "03:19",
+        "zuhr": "13:16",
+        "asr": "18:32",
+        "magrib": "21:00",
+        "isha": "22:14",
+        "asrMithl1": "18:31",
+        "asrMithl2": "18:32"
+      }
     },
     {
       "day": "Monday",
@@ -242,7 +502,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:03",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:16",
+      "begins": {
+        "fajr": "03:21",
+        "zuhr": "13:16",
+        "asr": "18:31",
+        "magrib": "20:59",
+        "isha": "22:13",
+        "asrMithl1": "18:30",
+        "asrMithl2": "18:31"
+      }
     },
     {
       "day": "Tuesday",
@@ -251,7 +521,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:02",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:17",
+      "begins": {
+        "fajr": "03:22",
+        "zuhr": "13:16",
+        "asr": "18:30",
+        "magrib": "20:57",
+        "isha": "22:11",
+        "asrMithl1": "18:29",
+        "asrMithl2": "18:30"
+      }
     },
     {
       "day": "Wednesday",
@@ -260,7 +540,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "21:01",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:19",
+      "begins": {
+        "fajr": "03:24",
+        "zuhr": "13:16",
+        "asr": "18:29",
+        "magrib": "20:56",
+        "isha": "22:10",
+        "asrMithl1": "18:28",
+        "asrMithl2": "18:29"
+      }
     },
     {
       "day": "Thursday",
@@ -269,7 +559,17 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "20:59",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:20",
+      "begins": {
+        "fajr": "03:25",
+        "zuhr": "13:16",
+        "asr": "18:28",
+        "magrib": "20:54",
+        "isha": "22:08",
+        "asrMithl1": "18:27",
+        "asrMithl2": "18:28"
+      }
     },
     {
       "day": "Friday",
@@ -278,9 +578,19 @@
       "zuhr": "13:30",
       "asr": "19:15",
       "magrib": "20:57",
-      "isha": "22:40"
+      "isha": "22:40",
+      "sunrise": "05:22",
+      "begins": {
+        "fajr": "03:27",
+        "zuhr": "13:16",
+        "asr": "18:27",
+        "magrib": "20:52",
+        "isha": "22:06",
+        "asrMithl1": "18:26",
+        "asrMithl2": "18:27"
+      }
     }
   ],
-  "lastChecked": "2026-07-26T02:52:10.365Z",
+  "lastChecked": "2026-07-26T15:27:28.903Z",
   "isStale": false
 }

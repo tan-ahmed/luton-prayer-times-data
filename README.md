@@ -1,13 +1,21 @@
 # Luton Prayer Times — Data Repo (TypeScript)
 
-This repository generates and hosts **static JSON** artifacts consumed by the Luton Prayer Times app.
+This repository generates and hosts **static JSON** artifacts consumed by the Luton Prayer Times app (and any other client that can fetch GitHub Raw).
 
-## Output (what the app fetches)
+## Output (what clients fetch)
 
-- `mosque-index.json`
-- `data/<slug>.json`
+Base URL:
 
-These match the paths used by `MOSQUE_DATA_BASE_URL` in the app.
+```
+https://raw.githubusercontent.com/tan-ahmed/luton-prayer-times-data/main
+```
+
+| File | Description |
+|------|-------------|
+| `mosque-index.json` | Mosque list + `hasData` |
+| `data/<slug>.json` | Jamah times; optional `begins` + `sunrise` when the source provides them |
+
+**Types, field meanings, example fetch code, and which mosques still lack `begins`:** see [`docs/data-contract.md`](docs/data-contract.md).
 
 ## Quick start
 

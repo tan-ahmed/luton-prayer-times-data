@@ -4,7 +4,7 @@ import https from "node:https";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { parse as parseCsv } from "csv-parse/sync";
-import type { MosqueData, MosqueIndex, PrayerTiming } from "./types";
+import type { MosqueData, MosqueIndex, PrayerBeginsTiming, PrayerKey, PrayerTiming } from "./types";
 
 export function ensureDataDirectory(repoRoot: string): string {
   const dataDir = path.join(repoRoot, "data");
@@ -189,20 +189,51 @@ export function transformWordPressData(wpData: unknown): PrayerTiming[] {
 
   const timings: PrayerTiming[] = [];
   for (const dayData of days) {
-    const dDate = typeof dayData.d_date === "string" ? dayData.d_date : "";
-    if (!dDate) continue;
-    timings.push({
-      day: getDayName(dDate),
-      date: convertDate(dDate),
-      fajr: convertTime(dayData.fajr_jamah),
-      zuhr: convertTime(dayData.zuhr_jamah),
-      asr: convertTime(dayData.asr_jamah),
-      magrib: convertTime(dayData.maghrib_jamah),
-      isha: convertTime(dayData.isha_jamah),
-    });
+    const timing = mapDptDayToPrayerTiming(dayData, convertDate, convertTime, getDayName);
+    if (timing) timings.push(timing);
   }
 
   return timings;
+}
+
+/** Shared DPT-style day mapper (WordPress + Supabase): jamah top-level, optional begins/sunrise. */
+function mapDptDayToPrayerTiming(
+  dayData: AnyObj,
+  convertDate: (dateStr: string) => string,
+  convertTime: (timeStr: unknown) => string,
+  getDayName: (dateStr: string) => string,
+): PrayerTiming | null {
+  const dDate = typeof dayData.d_date === "string" ? dayData.d_date : "";
+  if (!dDate) return null;
+
+  const begins: PrayerBeginsTiming = {};
+  const fajrBegins = convertTime(dayData.fajr_begins);
+  const zuhrBegins = convertTime(dayData.zuhr_begins);
+  const asrMithl1 = convertTime(dayData.asr_mithl_1);
+  const asrMithl2 = convertTime(dayData.asr_mithl_2);
+  const asrBegins = asrMithl2 || asrMithl1;
+  const magribBegins = convertTime(dayData.maghrib_begins);
+  const ishaBegins = convertTime(dayData.isha_begins);
+  if (fajrBegins) begins.fajr = fajrBegins;
+  if (zuhrBegins) begins.zuhr = zuhrBegins;
+  if (asrBegins) begins.asr = asrBegins;
+  if (magribBegins) begins.magrib = magribBegins;
+  if (ishaBegins) begins.isha = ishaBegins;
+  if (asrMithl1) begins.asrMithl1 = asrMithl1;
+  if (asrMithl2) begins.asrMithl2 = asrMithl2;
+  const sunrise = convertTime(dayData.sunrise);
+
+  return {
+    day: getDayName(dDate),
+    date: convertDate(dDate),
+    fajr: convertTime(dayData.fajr_jamah),
+    zuhr: convertTime(dayData.zuhr_jamah),
+    asr: convertTime(dayData.asr_jamah),
+    magrib: convertTime(dayData.maghrib_jamah),
+    isha: convertTime(dayData.isha_jamah),
+    ...(sunrise ? { sunrise } : {}),
+    ...(Object.keys(begins).length ? { begins } : {}),
+  };
 }
 
 export function transformSupabaseData(supabaseData: unknown): PrayerTiming[] {
@@ -252,17 +283,8 @@ export function transformSupabaseData(supabaseData: unknown): PrayerTiming[] {
 
   const timings: PrayerTiming[] = [];
   for (const dayData of days) {
-    const dDate = typeof dayData.d_date === "string" ? dayData.d_date : "";
-    if (!dDate) continue;
-    timings.push({
-      day: getDayName(dDate),
-      date: convertDate(dDate),
-      fajr: convertTime(dayData.fajr_jamah),
-      zuhr: convertTime(dayData.zuhr_jamah),
-      asr: convertTime(dayData.asr_jamah),
-      magrib: convertTime(dayData.maghrib_jamah),
-      isha: convertTime(dayData.isha_jamah),
-    });
+    const timing = mapDptDayToPrayerTiming(dayData, convertDate, convertTime, getDayName);
+    if (timing) timings.push(timing);
   }
   return timings;
 }
@@ -337,6 +359,20 @@ export function transformMasjidBoxApiData(apiData: unknown): PrayerTiming[] {
     const dayName = formatIsoDateToWeekday(dayData.date);
     const dateStr = formatIsoDateToDMY(dayData.date);
     const iqamah = (dayData.iqamah as AnyObj | undefined) ?? {};
+
+    const begins: PrayerBeginsTiming = {};
+    const fajrBegins = formatIsoToHHMM(dayData.fajr);
+    const zuhrBegins = formatIsoToHHMM(dayData.dhuhr);
+    const asrBegins = formatIsoToHHMM(dayData.asr);
+    const magribBegins = formatIsoToHHMM(dayData.maghrib);
+    const ishaBegins = formatIsoToHHMM(dayData.isha);
+    if (fajrBegins) begins.fajr = fajrBegins;
+    if (zuhrBegins) begins.zuhr = zuhrBegins;
+    if (asrBegins) begins.asr = asrBegins;
+    if (magribBegins) begins.magrib = magribBegins;
+    if (ishaBegins) begins.isha = ishaBegins;
+    const sunrise = formatIsoToHHMM(dayData.sunrise);
+
     timings.push({
       day: dayName,
       date: dateStr,
@@ -345,6 +381,8 @@ export function transformMasjidBoxApiData(apiData: unknown): PrayerTiming[] {
       asr: formatIsoToHHMM(iqamah.asr),
       magrib: formatIsoToHHMM(iqamah.maghrib),
       isha: formatIsoToHHMM(iqamah.isha),
+      ...(sunrise ? { sunrise } : {}),
+      ...(Object.keys(begins).length ? { begins } : {}),
     });
   }
 
@@ -552,7 +590,7 @@ export function transformMasjidIrshadWebsiteData(html: string): PrayerTiming[] {
   const $ = cheerio.load(html);
   const timings: PrayerTiming[] = [];
 
-  const prayerMap: Record<string, keyof PrayerTiming> = {
+  const prayerMap: Record<string, PrayerKey> = {
     fajr: "fajr",
     dhuhr: "zuhr",
     zuhr: "zuhr",
@@ -569,7 +607,7 @@ export function transformMasjidIrshadWebsiteData(html: string): PrayerTiming[] {
   const year = String(today.getFullYear());
   const dateStr = `${day}-${month}-${year}`;
 
-  const jamaahTimes: Partial<Record<keyof PrayerTiming, string>> = {};
+  const jamaahTimes: Partial<Record<PrayerKey, string>> = {};
   $("table tbody tr").each((_index, rowEl) => {
     const tds = $(rowEl).find("td");
     if (tds.length >= 3) {
@@ -602,7 +640,7 @@ export function transformMadinahMasjidWebsiteData(html: string): PrayerTiming[] 
   const $ = cheerio.load(html);
   const timings: PrayerTiming[] = [];
 
-  const prayerKeyMap: Record<string, keyof PrayerTiming> = {
+  const prayerKeyMap: Record<string, PrayerKey> = {
     fajr: "fajr",
     zuhr: "zuhr",
     asr: "asr",
@@ -629,7 +667,7 @@ export function transformMadinahMasjidWebsiteData(html: string): PrayerTiming[] 
     return s;
   };
 
-  const jamaahTimes: Partial<Record<keyof PrayerTiming, string>> = {};
+  const jamaahTimes: Partial<Record<PrayerKey, string>> = {};
   $("div.prayer-times h3").each((_index, el) => {
     const text = $(el).text().trim();
     const match = text.match(/^(\w+)\s*:\s*(.+)$/i);
@@ -661,7 +699,7 @@ export function transformMadinahMasjidWebsiteData(html: string): PrayerTiming[] 
 export function transformFaizanEMushkilKushaWebsiteData(html: string): PrayerTiming[] {
   const $ = cheerio.load(html);
   const timings: PrayerTiming[] = [];
-  const prayerToKey: Record<string, keyof PrayerTiming> = {
+  const prayerToKey: Record<string, PrayerKey> = {
     fajr: "fajr",
     dhuhr: "zuhr",
     asr: "asr",
@@ -676,7 +714,7 @@ export function transformFaizanEMushkilKushaWebsiteData(html: string): PrayerTim
   const year = String(today.getFullYear());
   const dateStr = `${day}-${month}-${year}`;
 
-  const jamaatTimes: Partial<Record<keyof PrayerTiming, string>> = {};
+  const jamaatTimes: Partial<Record<PrayerKey, string>> = {};
   $("table tbody tr").each((_index, rowEl) => {
     const tds = $(rowEl).find("td");
     if (tds.length < 4) return;
@@ -742,7 +780,7 @@ export function transformBaitUlAbrarWebsiteData(html: string): PrayerTiming[] {
 export function transformMasjidEAliWebsiteData(html: string): PrayerTiming[] {
   const $ = cheerio.load(html);
   const timings: PrayerTiming[] = [];
-  const nameToKey: Record<string, keyof PrayerTiming> = {
+  const nameToKey: Record<string, PrayerKey> = {
     fajr: "fajr",
     dhurain: "zuhr",
     dhuhr: "zuhr",
@@ -760,7 +798,7 @@ export function transformMasjidEAliWebsiteData(html: string): PrayerTiming[] {
   const year = String(today.getFullYear());
   const dateStr = `${day}-${month}-${year}`;
 
-  const jamaahTimes: Partial<Record<keyof PrayerTiming, string>> = {};
+  const jamaahTimes: Partial<Record<PrayerKey, string>> = {};
   $("div.grid > div").each((_index, cardEl) => {
     const divs = $(cardEl).children("div");
     if (divs.length >= 2) {
