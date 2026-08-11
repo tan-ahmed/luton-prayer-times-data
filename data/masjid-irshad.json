@@ -2,15 +2,15 @@
   "mosqueName": "Masjid Irshad",
   "timings": [
     {
-      "day": "Monday",
-      "date": "10-08-2026",
+      "day": "Tuesday",
+      "date": "11-08-2026",
       "fajr": "05:10",
       "zuhr": "13:30",
       "asr": "19:00",
-      "magrib": "20:39",
+      "magrib": "20:37",
       "isha": "21:50"
     }
   ],
-  "lastChecked": "2026-08-10T01:51:34.632Z",
+  "lastChecked": "2026-08-11T01:48:01.954Z",
   "isStale": false
 }
