@@ -52,13 +52,13 @@
       "name": "Hockwell Ring Masjid",
       "slug": "hockwell-ring-masjid",
       "dataFile": "data/hockwell-ring-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Jalalabad Jamia Masjid",
       "slug": "jalalabad-jamia-masjid",
       "dataFile": "data/jalalabad-jamia-masjid.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Jamia Al-Akbaria",
@@ -148,7 +148,7 @@
       "name": "Masjid-e-Noor",
       "slug": "masjid-e-noor",
       "dataFile": "data/masjid-e-noor.json",
-      "hasData": true
+      "hasData": false
     },
     {
       "name": "Saints Area Masjid",
@@ -181,5 +181,5 @@
       "hasData": true
     }
   ],
-  "lastUpdated": "2026-08-14T02:00:34.508Z"
+  "lastUpdated": "2026-08-15T01:16:45.557Z"
 }
