@@ -2,15 +2,6 @@
   "mosqueName": "Masjid Irshad",
   "timings": [
     {
-      "day": "Sunday",
-      "date": "23-08-2026",
-      "fajr": "05:25",
-      "zuhr": "13:30",
-      "asr": "19:00",
-      "magrib": "20:12",
-      "isha": "21:40"
-    },
-    {
       "day": "Monday",
       "date": "24-08-2026",
       "fajr": "05:35",
@@ -18,71 +9,8 @@
       "asr": "19:00",
       "magrib": "20:10",
       "isha": "21:30"
-    },
-    {
-      "day": "Tuesday",
-      "date": "25-08-2026",
-      "fajr": "05:35",
-      "zuhr": "13:30",
-      "asr": "19:00",
-      "magrib": "20:08",
-      "isha": "21:30"
-    },
-    {
-      "day": "Wednesday",
-      "date": "26-08-2026",
-      "fajr": "05:35",
-      "zuhr": "13:30",
-      "asr": "19:00",
-      "magrib": "20:06",
-      "isha": "21:30"
-    },
-    {
-      "day": "Thursday",
-      "date": "27-08-2026",
-      "fajr": "05:35",
-      "zuhr": "13:30",
-      "asr": "19:00",
-      "magrib": "20:04",
-      "isha": "21:30"
-    },
-    {
-      "day": "Friday",
-      "date": "28-08-2026",
-      "fajr": "05:35",
-      "zuhr": "13:30   14:15",
-      "asr": "19:00",
-      "magrib": "20:02",
-      "isha": "21:30"
-    },
-    {
-      "day": "Saturday",
-      "date": "29-08-2026",
-      "fajr": "05:35",
-      "zuhr": "13:30",
-      "asr": "19:00",
-      "magrib": "19:59",
-      "isha": "21:30"
-    },
-    {
-      "day": "Sunday",
-      "date": "30-08-2026",
-      "fajr": "05:35",
-      "zuhr": "13:30",
-      "asr": "19:00",
-      "magrib": "19:57",
-      "isha": "21:30"
-    },
-    {
-      "day": "Monday",
-      "date": "31-08-2026",
-      "fajr": "05:45",
-      "zuhr": "13:30",
-      "asr": "18:00",
-      "magrib": "19:55",
-      "isha": "21:10"
     }
   ],
-  "lastChecked": "2026-08-23T01:25:05.586Z",
+  "lastChecked": "2026-08-24T01:19:31.382Z",
   "isStale": false
 }
