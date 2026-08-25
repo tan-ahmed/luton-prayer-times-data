@@ -1,6 +1,596 @@
 {
   "mosqueName": "Jalalabad Jamia Masjid",
-  "timings": [],
-  "lastChecked": "2026-08-24T01:19:17.778Z",
+  "timings": [
+    {
+      "day": "Saturday",
+      "date": "01-08-2026",
+      "fajr": "04:45",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:57",
+      "isha": "22:30",
+      "sunrise": "05:23",
+      "begins": {
+        "fajr": "03:40",
+        "zuhr": "13:13",
+        "asr": "18:29",
+        "magrib": "20:52",
+        "isha": "22:10",
+        "asrMithl1": "18:29",
+        "asrMithl2": "18:29"
+      }
+    },
+    {
+      "day": "Sunday",
+      "date": "02-08-2026",
+      "fajr": "04:45",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:55",
+      "isha": "22:30",
+      "sunrise": "05:25",
+      "begins": {
+        "fajr": "03:42",
+        "zuhr": "13:13",
+        "asr": "18:28",
+        "magrib": "20:50",
+        "isha": "22:09",
+        "asrMithl1": "18:28",
+        "asrMithl2": "18:28"
+      }
+    },
+    {
+      "day": "Monday",
+      "date": "03-08-2026",
+      "fajr": "04:45",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:53",
+      "isha": "22:30",
+      "sunrise": "05:26",
+      "begins": {
+        "fajr": "03:44",
+        "zuhr": "13:13",
+        "asr": "18:27",
+        "magrib": "20:48",
+        "isha": "22:07",
+        "asrMithl1": "18:27",
+        "asrMithl2": "18:27"
+      }
+    },
+    {
+      "day": "Tuesday",
+      "date": "04-08-2026",
+      "fajr": "04:45",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:52",
+      "isha": "22:30",
+      "sunrise": "05:28",
+      "begins": {
+        "fajr": "03:46",
+        "zuhr": "13:13",
+        "asr": "18:26",
+        "magrib": "20:47",
+        "isha": "22:05",
+        "asrMithl1": "18:26",
+        "asrMithl2": "18:26"
+      }
+    },
+    {
+      "day": "Wednesday",
+      "date": "05-08-2026",
+      "fajr": "04:45",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:50",
+      "isha": "22:30",
+      "sunrise": "05:30",
+      "begins": {
+        "fajr": "03:48",
+        "zuhr": "13:13",
+        "asr": "18:25",
+        "magrib": "20:45",
+        "isha": "22:04",
+        "asrMithl1": "18:25",
+        "asrMithl2": "18:25"
+      }
+    },
+    {
+      "day": "Thursday",
+      "date": "06-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:48",
+      "isha": "22:15",
+      "sunrise": "05:31",
+      "begins": {
+        "fajr": "03:50",
+        "zuhr": "13:13",
+        "asr": "18:24",
+        "magrib": "20:43",
+        "isha": "22:02",
+        "asrMithl1": "18:24",
+        "asrMithl2": "18:24"
+      }
+    },
+    {
+      "day": "Friday",
+      "date": "07-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:46",
+      "isha": "22:15",
+      "sunrise": "05:33",
+      "begins": {
+        "fajr": "03:52",
+        "zuhr": "13:13",
+        "asr": "18:22",
+        "magrib": "20:41",
+        "isha": "22:00",
+        "asrMithl1": "18:22",
+        "asrMithl2": "18:22"
+      }
+    },
+    {
+      "day": "Saturday",
+      "date": "08-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:45",
+      "isha": "22:15",
+      "sunrise": "05:34",
+      "begins": {
+        "fajr": "03:54",
+        "zuhr": "13:12",
+        "asr": "18:21",
+        "magrib": "20:40",
+        "isha": "21:58",
+        "asrMithl1": "18:21",
+        "asrMithl2": "18:21"
+      }
+    },
+    {
+      "day": "Sunday",
+      "date": "09-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:43",
+      "isha": "22:15",
+      "sunrise": "05:36",
+      "begins": {
+        "fajr": "03:56",
+        "zuhr": "13:12",
+        "asr": "18:20",
+        "magrib": "20:38",
+        "isha": "21:56",
+        "asrMithl1": "18:20",
+        "asrMithl2": "18:20"
+      }
+    },
+    {
+      "day": "Monday",
+      "date": "10-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:41",
+      "isha": "22:15",
+      "sunrise": "05:37",
+      "begins": {
+        "fajr": "03:59",
+        "zuhr": "13:12",
+        "asr": "18:19",
+        "magrib": "20:36",
+        "isha": "21:55",
+        "asrMithl1": "18:19",
+        "asrMithl2": "18:19"
+      }
+    },
+    {
+      "day": "Tuesday",
+      "date": "11-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:39",
+      "isha": "22:15",
+      "sunrise": "05:39",
+      "begins": {
+        "fajr": "04:00",
+        "zuhr": "13:12",
+        "asr": "18:17",
+        "magrib": "20:34",
+        "isha": "21:53",
+        "asrMithl1": "18:17",
+        "asrMithl2": "18:17"
+      }
+    },
+    {
+      "day": "Wednesday",
+      "date": "12-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:37",
+      "isha": "22:15",
+      "sunrise": "05:41",
+      "begins": {
+        "fajr": "04:02",
+        "zuhr": "13:12",
+        "asr": "18:16",
+        "magrib": "20:32",
+        "isha": "21:51",
+        "asrMithl1": "18:16",
+        "asrMithl2": "18:16"
+      }
+    },
+    {
+      "day": "Thursday",
+      "date": "13-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:35",
+      "isha": "22:15",
+      "sunrise": "05:42",
+      "begins": {
+        "fajr": "04:04",
+        "zuhr": "13:12",
+        "asr": "18:15",
+        "magrib": "20:30",
+        "isha": "21:49",
+        "asrMithl1": "18:15",
+        "asrMithl2": "18:15"
+      }
+    },
+    {
+      "day": "Friday",
+      "date": "14-08-2026",
+      "fajr": "05:00",
+      "zuhr": "13:30",
+      "asr": "19:00",
+      "magrib": "20:33",
+      "isha": "22:15",
+      "sunrise": "05:44",
+      "begins": {
+        "fajr": "04:06",
+        "zuhr": "13:11",
+        "asr": "18:13",
+        "magrib": "20:28",
+        "isha": "21:47",
+        "asrMithl1": "18:13",
+        "asrMithl2": "18:13"
+      }
+    },
+    {
+      "day": "Saturday",
+      "date": "15-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:31",
+      "isha": "22:00",
+      "sunrise": "05:45",
+      "begins": {
+        "fajr": "04:08",
+        "zuhr": "13:11",
+        "asr": "18:12",
+        "magrib": "20:26",
+        "isha": "21:45",
+        "asrMithl1": "18:12",
+        "asrMithl2": "18:12"
+      }
+    },
+    {
+      "day": "Sunday",
+      "date": "16-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:29",
+      "isha": "22:00",
+      "sunrise": "05:47",
+      "begins": {
+        "fajr": "04:10",
+        "zuhr": "13:11",
+        "asr": "18:11",
+        "magrib": "20:24",
+        "isha": "21:43",
+        "asrMithl1": "18:11",
+        "asrMithl2": "18:11"
+      }
+    },
+    {
+      "day": "Monday",
+      "date": "17-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:27",
+      "isha": "22:00",
+      "sunrise": "05:49",
+      "begins": {
+        "fajr": "04:12",
+        "zuhr": "13:11",
+        "asr": "18:09",
+        "magrib": "20:22",
+        "isha": "21:41",
+        "asrMithl1": "18:09",
+        "asrMithl2": "18:09"
+      }
+    },
+    {
+      "day": "Tuesday",
+      "date": "18-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:25",
+      "isha": "22:00",
+      "sunrise": "05:50",
+      "begins": {
+        "fajr": "04:15",
+        "zuhr": "13:11",
+        "asr": "18:08",
+        "magrib": "20:20",
+        "isha": "21:39",
+        "asrMithl1": "18:08",
+        "asrMithl2": "18:08"
+      }
+    },
+    {
+      "day": "Wednesday",
+      "date": "19-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:23",
+      "isha": "22:00",
+      "sunrise": "05:52",
+      "begins": {
+        "fajr": "04:17",
+        "zuhr": "13:10",
+        "asr": "18:06",
+        "magrib": "20:18",
+        "isha": "21:37",
+        "asrMithl1": "18:06",
+        "asrMithl2": "18:06"
+      }
+    },
+    {
+      "day": "Thursday",
+      "date": "20-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:21",
+      "isha": "22:00",
+      "sunrise": "05:54",
+      "begins": {
+        "fajr": "04:19",
+        "zuhr": "13:10",
+        "asr": "18:05",
+        "magrib": "20:16",
+        "isha": "21:35",
+        "asrMithl1": "18:05",
+        "asrMithl2": "18:05"
+      }
+    },
+    {
+      "day": "Friday",
+      "date": "21-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:19",
+      "isha": "22:00",
+      "sunrise": "05:55",
+      "begins": {
+        "fajr": "04:20",
+        "zuhr": "13:10",
+        "asr": "18:03",
+        "magrib": "20:14",
+        "isha": "21:33",
+        "asrMithl1": "18:03",
+        "asrMithl2": "18:03"
+      }
+    },
+    {
+      "day": "Saturday",
+      "date": "22-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:17",
+      "isha": "22:00",
+      "sunrise": "05:57",
+      "begins": {
+        "fajr": "04:21",
+        "zuhr": "13:10",
+        "asr": "18:02",
+        "magrib": "20:12",
+        "isha": "21:31",
+        "asrMithl1": "18:02",
+        "asrMithl2": "18:02"
+      }
+    },
+    {
+      "day": "Sunday",
+      "date": "23-08-2026",
+      "fajr": "05:15",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:14",
+      "isha": "22:00",
+      "sunrise": "05:58",
+      "begins": {
+        "fajr": "04:23",
+        "zuhr": "13:09",
+        "asr": "18:00",
+        "magrib": "20:09",
+        "isha": "21:29",
+        "asrMithl1": "18:00",
+        "asrMithl2": "18:00"
+      }
+    },
+    {
+      "day": "Monday",
+      "date": "24-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:12",
+      "isha": "21:45",
+      "sunrise": "06:00",
+      "begins": {
+        "fajr": "04:25",
+        "zuhr": "13:09",
+        "asr": "17:59",
+        "magrib": "20:07",
+        "isha": "21:26",
+        "asrMithl1": "17:59",
+        "asrMithl2": "17:59"
+      }
+    },
+    {
+      "day": "Tuesday",
+      "date": "25-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:10",
+      "isha": "21:45",
+      "sunrise": "06:02",
+      "begins": {
+        "fajr": "04:27",
+        "zuhr": "13:09",
+        "asr": "17:57",
+        "magrib": "20:05",
+        "isha": "21:24",
+        "asrMithl1": "17:57",
+        "asrMithl2": "17:57"
+      }
+    },
+    {
+      "day": "Wednesday",
+      "date": "26-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:08",
+      "isha": "21:45",
+      "sunrise": "06:03",
+      "begins": {
+        "fajr": "04:29",
+        "zuhr": "13:09",
+        "asr": "17:55",
+        "magrib": "20:03",
+        "isha": "21:22",
+        "asrMithl1": "17:55",
+        "asrMithl2": "17:55"
+      }
+    },
+    {
+      "day": "Thursday",
+      "date": "27-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:06",
+      "isha": "21:45",
+      "sunrise": "06:05",
+      "begins": {
+        "fajr": "04:31",
+        "zuhr": "13:08",
+        "asr": "17:54",
+        "magrib": "20:01",
+        "isha": "21:20",
+        "asrMithl1": "17:54",
+        "asrMithl2": "17:54"
+      }
+    },
+    {
+      "day": "Friday",
+      "date": "28-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:03",
+      "isha": "21:45",
+      "sunrise": "06:07",
+      "begins": {
+        "fajr": "04:33",
+        "zuhr": "13:08",
+        "asr": "17:52",
+        "magrib": "19:58",
+        "isha": "21:18",
+        "asrMithl1": "17:52",
+        "asrMithl2": "17:52"
+      }
+    },
+    {
+      "day": "Saturday",
+      "date": "29-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "20:01",
+      "isha": "21:45",
+      "sunrise": "06:08",
+      "begins": {
+        "fajr": "04:35",
+        "zuhr": "13:08",
+        "asr": "17:50",
+        "magrib": "19:56",
+        "isha": "21:16",
+        "asrMithl1": "17:50",
+        "asrMithl2": "17:50"
+      }
+    },
+    {
+      "day": "Sunday",
+      "date": "30-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "19:59",
+      "isha": "21:45",
+      "sunrise": "06:10",
+      "begins": {
+        "fajr": "04:37",
+        "zuhr": "13:07",
+        "asr": "17:49",
+        "magrib": "19:54",
+        "isha": "21:13",
+        "asrMithl1": "17:49",
+        "asrMithl2": "17:49"
+      }
+    },
+    {
+      "day": "Monday",
+      "date": "31-08-2026",
+      "fajr": "05:30",
+      "zuhr": "13:30",
+      "asr": "18:45",
+      "magrib": "19:57",
+      "isha": "21:45",
+      "sunrise": "06:11",
+      "begins": {
+        "fajr": "04:39",
+        "zuhr": "13:07",
+        "asr": "17:47",
+        "magrib": "19:52",
+        "isha": "21:11",
+        "asrMithl1": "17:47",
+        "asrMithl2": "17:47"
+      }
+    }
+  ],
+  "lastChecked": "2026-08-25T01:17:03.056Z",
   "isStale": false
 }
