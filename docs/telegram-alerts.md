@@ -10,31 +10,43 @@ Daily Actions refresh logs warnings and may preserve stale JSON (`isStale: true`
 
 ## Message format
 
+Plain-language summary with a simple table. Example:
+
 ```
-Luton prayer times · 2026-08-28 20:57:30 UTC · 29 mosques
+🕌 Luton Prayer Times
+Checked: Friday, 28 August 2026, 9:23 pm
 
-OK (26)
-- Al Hira Centre — WordPress, 31 days
-- Kokni Masjid — Jina, 31 days
-- Yusuf Hall — InspireFM, 4 days
+Summary: 26 up to date · 1 showing old times · 2 with no data
 
-STALE (1)
-- Example Masjid — Source blocked (HTTP 403)
+Mosque                     Status
+──────────────────────────────────
+Al Hira Centre             ✅
+Kokni Masjid               ✅
+Jalalabad Jamia Masjid     ❌
+...
 
-FAILED (2)
-- Jalalabad Jamia Masjid — Source timed out
-- Masjid-e-Noor — ENOTFOUND
+⚠️ Showing old times (1)
+The app may still show last month's prayer times for these mosques.
+• Yusuf Hall — The mosque website blocked our automatic check
+
+❌ No prayer times (2)
+These mosques have nothing to show in the app right now.
+• Jalalabad Jamia Masjid — The website took too long to respond
+
+✅ = fresh times loaded · ⚠️ = kept older saved times · ❌ = nothing available
 ```
 
-Empty sections are omitted. Messages longer than 4096 characters are split automatically.
+If everything is fine, the message says **All 29 mosques are up to date** and only shows the table.
+
+Empty problem sections are omitted. Messages longer than 4096 characters are split automatically.
 
 ## Status meanings
 
-| Status | Meaning |
+| What you see | Meaning |
 | --- | --- |
-| `ok` | Fresh timings written, or existing file preserved because it still covers the current month |
-| `stale` | Existing `data/<slug>.json` preserved with `isStale: true` (includes `staleReason`) |
-| `failed` | No usable timings (sources failed, preserve did not keep data, or unexpected error) |
+| ✅ Up to date | Fresh prayer times were loaded successfully |
+| ⚠️ Old times | We could not refresh today, so last month's saved times are still being used |
+| ❌ No data | No prayer times available for this mosque right now |
 
 ## Setup (one-time)
 
