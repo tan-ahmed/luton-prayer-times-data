@@ -15,6 +15,8 @@ npm run refresh -- --mosque=masjid-e-noor,zuhri-academy
 npm run refresh:one -- --mosque=masjid-suffa-tul-islam
 ```
 
+Optional local secrets: copy `.env.example` to `.env` (gitignored). `JINA_API_KEY` is used only when a WordPress `wpUrl` returns HTTP 403 and the scraper falls back to the Jina Reader relay.
+
 ## GitHub Actions
 
 Workflow: `.github/workflows/refresh.yml`
@@ -33,6 +35,10 @@ On GitHub:
 The workflow will:
 
 1. `npm ci`
-2. Run `npm run refresh` (optionally filtered by `--mosque=...`)
+2. Run `npm run refresh` (optionally filtered by `--mosque=...`) with `JINA_API_KEY` from repo secrets
 3. Commit + push any changed JSON artifacts
+
+Repo secret:
+
+- `JINA_API_KEY` — Jina Reader API key for WordPress 403 fallback (anonymous relay is used if unset)
 

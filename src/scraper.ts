@@ -93,12 +93,82 @@ const SOURCE_ORDER = ["wpUrl", "masjidBoxApi", "mawaqitUrl", "supabaseUrl", "url
 const WP_API_TIMEOUT_MS = 45_000;
 const WP_MAX_RETRIES = 2;
 const WP_RETRY_DELAYS_MS = [2000, 4000];
+const JINA_READER_PREFIX = "https://r.jina.ai/";
 
 type FailureReason = "blocked" | "timeout" | "invalid" | "rate_limited" | "server_error" | null;
 
 interface FetchState {
   transientFailure: boolean;
   failureReason: FailureReason;
+}
+
+/** Load repo-root `.env` without overriding vars already set (e.g. GitHub Actions). */
+function loadDotEnv(repoRoot: string): void {
+  const envPath = path.join(repoRoot, ".env");
+  if (!fs.existsSync(envPath)) return;
+  const text = fs.readFileSync(envPath, "utf8");
+  for (const line of text.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq <= 0) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (process.env[key] === undefined) process.env[key] = value;
+  }
+}
+
+function httpStatus(err: unknown): number | undefined {
+  return (err as { response?: { status?: number } })?.response?.status;
+}
+
+function timingsFromWpPayload(
+  data: unknown,
+  slug: string,
+  sourceLabel: string,
+  state: FetchState,
+): PrayerTiming[] {
+  if (!isValidWordPressPayload(data)) {
+    state.transientFailure = true;
+    state.failureReason = "invalid";
+    console.warn(`[${slug}] ${sourceLabel} returned invalid/empty payload`);
+    return [];
+  }
+  const wpTimings = transformWordPressData(data);
+  if (wpTimings.length === 0) {
+    state.transientFailure = true;
+    state.failureReason = "invalid";
+    console.warn(`[${slug}] ${sourceLabel} returned invalid/empty payload`);
+    return [];
+  }
+  console.log(`Successfully fetched ${wpTimings.length} day(s) from ${sourceLabel} for ${slug}`);
+  return wpTimings;
+}
+
+async function fetchWordPressViaJina(wpUrl: string, slug: string): Promise<unknown> {
+  const headers: Record<string, string> = { "x-respond-with": "text" };
+  const apiKey = process.env.JINA_API_KEY?.trim();
+  if (apiKey) {
+    headers.Authorization = `Bearer ${apiKey}`;
+    console.warn(`[${slug}] WordPress API HTTP 403; retrying via Jina relay (authenticated)`);
+  } else {
+    console.warn(`[${slug}] WordPress API HTTP 403; retrying via Jina relay (anonymous)`);
+  }
+
+  const response = await httpClient.get(`${JINA_READER_PREFIX}${wpUrl}`, {
+    timeout: WP_API_TIMEOUT_MS,
+    headers,
+    responseType: "text",
+    transformResponse: [(data) => data],
+  });
+  const body = typeof response.data === "string" ? response.data.trim() : String(response.data ?? "").trim();
+  return JSON.parse(body);
 }
 
 function isRetryableWpError(err: unknown): boolean {
@@ -206,24 +276,26 @@ async function fetchWordPressTimings(
   for (let attempt = 0; attempt <= WP_MAX_RETRIES; attempt++) {
     try {
       const wpResponse = await httpClient.get(wpUrl, { timeout: WP_API_TIMEOUT_MS });
-      if (!isValidWordPressPayload(wpResponse.data)) {
-        state.transientFailure = true;
-        state.failureReason = "invalid";
-        console.warn(`[${slug}] wpUrl returned invalid/empty payload`);
-        return [];
-      }
-      const wpTimings = transformWordPressData(wpResponse.data);
-      if (wpTimings.length === 0) {
-        state.transientFailure = true;
-        state.failureReason = "invalid";
-        console.warn(`[${slug}] wpUrl returned invalid/empty payload`);
-        return [];
-      }
-      console.log(`Successfully fetched ${wpTimings.length} day(s) from WordPress API for ${slug}`);
-      return wpTimings;
+      return timingsFromWpPayload(wpResponse.data, slug, "WordPress API", state);
     } catch (err) {
       lastError = err;
       const msg = noteTransientFailure(err, state);
+      if (httpStatus(err) === 403) {
+        try {
+          const relayData = await fetchWordPressViaJina(wpUrl, slug);
+          const relayTimings = timingsFromWpPayload(relayData, slug, "Jina relay", state);
+          if (relayTimings.length > 0) {
+            state.transientFailure = false;
+            state.failureReason = null;
+            return relayTimings;
+          }
+        } catch (relayErr) {
+          const relayMsg = relayErr instanceof Error ? relayErr.message : String(relayErr);
+          console.warn(`[${slug}] Jina relay failed: ${relayMsg}`);
+        }
+        console.warn(`WordPress API failed for ${slug}: ${msg}`);
+        return [];
+      }
       if (attempt < WP_MAX_RETRIES && isRetryableWpError(err)) {
         const delay = WP_RETRY_DELAYS_MS[attempt] ?? 4000;
         console.warn(
@@ -478,6 +550,7 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
 
 export async function runScraper(options: ScrapeOptions): Promise<void> {
   const repoRoot = options.repoRoot;
+  loadDotEnv(repoRoot);
   const dataDir = ensureDataDirectory(repoRoot);
 
   const slugs = options.slugs?.length ? options.slugs : undefined;

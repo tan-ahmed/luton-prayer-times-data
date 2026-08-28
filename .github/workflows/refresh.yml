@@ -30,6 +30,8 @@ jobs:
         run: npm ci
 
       - name: Refresh JSON
+        env:
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
         run: |
           if [ -n "${{ github.event.inputs.mosque }}" ]; then
             npm run refresh -- --mosque=${{ github.event.inputs.mosque }}
