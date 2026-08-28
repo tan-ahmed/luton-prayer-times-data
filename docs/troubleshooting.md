@@ -34,7 +34,13 @@ Behavior: if the scraper finds no new timings early in the month and an old `dat
 
 After day 7, empty results will be saved as empty `timings` (so the app can show “No Data Available”).
 
-## WordPress source blocked (HTTP 403) from GitHub Actions
+## Google Sheet returns an old month (no current-month rows)
+
+**Example:** `farley-hill-masjid`, `jamia-al-akbaria`. Sheets that still have Feb/Mar data used to win over InspireFM and were saved with `isStale: false`.
+
+**What we do:** accept Google Sheet CSV only when it covers the **current calendar month**. Otherwise log a warning and fall through to other sources (InspireFM, etc.). If every source still returns only old months, the file is saved with `isStale: true` and `staleReason: "No new data available for current month"`.
+
+The app also treats “no timing row for the selected day” as stale in the UI, even if `isStale` was missing from the JSON.
 
 **Example:** `kokni-masjid`. SiteGround/Cloudflare WAF on the mosque host blocks GitHub Actions datacenter IPs. The same `wpUrl` returns 200 from a residential IP.
 

@@ -565,7 +565,7 @@ async function scrapePrayerTimings(
       }
     }
 
-    // Google Sheet CSV: specific mosques
+    // Google Sheet CSV: specific mosques (only accept if it covers the current month)
     const googleSheetLabel = GOOGLE_SHEET_MOSQUES[config.slug];
     if (googleSheetLabel && config.googleSheetCsvUrl && timings.length === 0) {
       try {
@@ -576,8 +576,14 @@ async function scrapePrayerTimings(
         const csvContent = typeof csvResponse.data === "string" ? csvResponse.data : String(csvResponse.data);
         const sheetTimings = transformGoogleSheetPrayerTimesCsv(csvContent);
         if (sheetTimings.length > 0) {
-          timings.push(...sheetTimings);
-          markSource(fetchState, "Google Sheet");
+          if (timingsCoverCurrentMonth(sheetTimings, new Date())) {
+            timings.push(...sheetTimings);
+            markSource(fetchState, "Google Sheet");
+          } else {
+            console.warn(
+              `[Google Sheet] ${config.slug}: sheet has ${sheetTimings.length} day(s) but none for the current month; trying other sources`,
+            );
+          }
         }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
@@ -661,6 +667,20 @@ async function scrapePrayerTimings(
       lastChecked: currentDate.toISOString(),
       isStale: false,
     };
+
+    // Safety net: a source returned rows, but none cover this calendar month.
+    if (!timingsCoverCurrentMonth(timings, currentDate)) {
+      mosqueData.isStale = true;
+      mosqueData.staleReason = "No new data available for current month";
+      saveToFile(filePath, mosqueData);
+      return buildOutcome(config, {
+        status: "stale",
+        name: mosqueName,
+        reason: mosqueData.staleReason,
+        ...(fetchState.sourceUsed ? { source: fetchState.sourceUsed } : {}),
+        dayCount: timings.length,
+      });
+    }
 
     saveToFile(filePath, mosqueData);
     return buildOutcome(config, {
