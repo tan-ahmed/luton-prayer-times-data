@@ -32,6 +32,8 @@ jobs:
       - name: Refresh JSON
         env:
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           if [ -n "${{ github.event.inputs.mosque }}" ]; then
             npm run refresh -- --mosque=${{ github.event.inputs.mosque }}

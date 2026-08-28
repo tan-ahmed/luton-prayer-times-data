@@ -66,3 +66,25 @@ export interface MosqueIndex {
   mosques: MosqueIndexEntry[];
   lastUpdated: string;
 }
+
+export type ScrapeStatus = "ok" | "stale" | "failed";
+
+export type ScrapeSource =
+  | "WordPress"
+  | "Jina"
+  | "InspireFM"
+  | "MasjidBox"
+  | "Mawaqit"
+  | "Supabase"
+  | "Website"
+  | "Google Sheet"
+  | "Preserved";
+
+export interface ScrapeOutcome {
+  slug: string;
+  name: string;
+  status: ScrapeStatus;
+  reason?: string;
+  source?: ScrapeSource;
+  dayCount?: number;
+}

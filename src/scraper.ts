@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import puppeteer from "puppeteer";
 import { mosqueUrls } from "./mosque-urls";
-import type { MosqueConfig, MosqueData, PrayerTiming } from "./types";
+import type { MosqueConfig, MosqueData, PrayerTiming, ScrapeOutcome, ScrapeSource } from "./types";
+import { sendRefreshDump } from "./telegram";
 import {
   addMonthToMosqueConfigs,
   ensureDataDirectory,
@@ -100,6 +101,44 @@ type FailureReason = "blocked" | "timeout" | "invalid" | "rate_limited" | "serve
 interface FetchState {
   transientFailure: boolean;
   failureReason: FailureReason;
+  sourceUsed: ScrapeSource | null;
+}
+
+interface PreserveResult {
+  preserved: boolean;
+  isStale?: boolean;
+  staleReason?: string;
+  dayCount?: number;
+  mosqueName?: string;
+}
+
+function markSource(state: FetchState, source: ScrapeSource): void {
+  state.sourceUsed = source;
+}
+
+function buildOutcome(
+  config: MosqueConfig,
+  options: {
+    status: ScrapeOutcome["status"];
+    name: string;
+    reason?: string;
+    source?: ScrapeSource;
+    dayCount?: number;
+  },
+): ScrapeOutcome {
+  const outcome: ScrapeOutcome = {
+    slug: config.slug,
+    name: options.name,
+    status: options.status,
+  };
+  if (options.reason) outcome.reason = options.reason;
+  if (options.source) outcome.source = options.source;
+  if (options.dayCount !== undefined) outcome.dayCount = options.dayCount;
+  return outcome;
+}
+
+function failureReasonText(state: FetchState): string {
+  return staleReasonFromState(state);
 }
 
 /** Load repo-root `.env` without overriding vars already set (e.g. GitHub Actions). */
@@ -181,7 +220,8 @@ function isRetryableWpError(err: unknown): boolean {
 
 function noteTransientFailure(err: unknown, state: FetchState): string {
   const status = (err as { response?: { status?: number } })?.response?.status;
-  const msg = err instanceof Error ? err.message : String(err);
+  const code = (err as { code?: string })?.code;
+  const msg = err instanceof Error ? err.message.trim() : String(err).trim();
 
   if (status === 403) {
     state.transientFailure = true;
@@ -198,13 +238,19 @@ function noteTransientFailure(err: unknown, state: FetchState): string {
     state.failureReason = "server_error";
     return `HTTP ${status}`;
   }
-  if (msg.includes("timeout") || msg.includes("ECONNABORTED")) {
+  if (msg.includes("timeout") || msg.includes("ECONNABORTED") || code === "ETIMEDOUT") {
     state.transientFailure = true;
     state.failureReason = "timeout";
-    return msg;
+    return msg || code || "timeout";
+  }
+  if (code === "ECONNREFUSED" || code === "ENOTFOUND" || code === "ECONNRESET") {
+    state.transientFailure = true;
+    return code;
   }
   if (status) return `HTTP ${status}`;
-  return msg;
+  if (msg) return msg;
+  if (code) return code;
+  return "Unknown error";
 }
 
 function staleReasonFromState(state: FetchState): string {
@@ -233,35 +279,42 @@ function tryPreserveExistingData(
   filePath: string,
   currentDate: Date,
   options: { transientFailure: boolean; failureReason: FailureReason; dayOfMonth: number },
-): boolean {
+): PreserveResult {
   const shouldPreserve = options.transientFailure || options.dayOfMonth <= 7;
-  if (!shouldPreserve || !fs.existsSync(filePath)) return false;
+  if (!shouldPreserve || !fs.existsSync(filePath)) return { preserved: false };
 
   try {
     const existingData = JSON.parse(fs.readFileSync(filePath, "utf8")) as MosqueData;
-    if (!existingData.timings?.length) return false;
+    if (!existingData.timings?.length) return { preserved: false };
 
     const coversCurrentMonth = timingsCoverCurrentMonth(existingData.timings, currentDate);
+    const staleReason = coversCurrentMonth
+      ? undefined
+      : staleReasonFromState({
+          transientFailure: options.transientFailure,
+          failureReason: options.failureReason,
+          sourceUsed: null,
+        });
     const { staleReason: _removed, ...rest } = existingData;
     const preserved: MosqueData = {
       ...rest,
       lastChecked: currentDate.toISOString(),
       isStale: !coversCurrentMonth,
-      ...(coversCurrentMonth
-        ? {}
-        : {
-            staleReason: staleReasonFromState({
-              transientFailure: options.transientFailure,
-              failureReason: options.failureReason,
-            }),
-          }),
+      ...(staleReason ? { staleReason } : {}),
     };
     saveToFile(filePath, preserved);
-    return true;
+    const result: PreserveResult = {
+      preserved: true,
+      isStale: !coversCurrentMonth,
+      dayCount: existingData.timings.length,
+      mosqueName: existingData.mosqueName,
+    };
+    if (staleReason) result.staleReason = staleReason;
+    return result;
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.warn(`Could not read existing data at ${filePath}: ${msg}`);
-    return false;
+    return { preserved: false };
   }
 }
 
@@ -276,7 +329,9 @@ async function fetchWordPressTimings(
   for (let attempt = 0; attempt <= WP_MAX_RETRIES; attempt++) {
     try {
       const wpResponse = await httpClient.get(wpUrl, { timeout: WP_API_TIMEOUT_MS });
-      return timingsFromWpPayload(wpResponse.data, slug, "WordPress API", state);
+      const wpTimings = timingsFromWpPayload(wpResponse.data, slug, "WordPress API", state);
+      if (wpTimings.length > 0) markSource(state, "WordPress");
+      return wpTimings;
     } catch (err) {
       lastError = err;
       const msg = noteTransientFailure(err, state);
@@ -287,6 +342,7 @@ async function fetchWordPressTimings(
           if (relayTimings.length > 0) {
             state.transientFailure = false;
             state.failureReason = null;
+            markSource(state, "Jina");
             return relayTimings;
           }
         } catch (relayErr) {
@@ -338,7 +394,10 @@ async function trySource(
       const response = await httpClient.get(config.url);
       const inspire = transformInspireFMData(String(response.data));
       if (inspire.mosqueName) mosqueNameRef.current = inspire.mosqueName;
-      if (inspire.timings.length > 0) timings.push(...inspire.timings);
+      if (inspire.timings.length > 0) {
+        timings.push(...inspire.timings);
+        markSource(fetchState, "InspireFM");
+      }
       return inspire.timings.length > 0;
     }
     case "masjidBoxApi": {
@@ -347,21 +406,30 @@ async function trySource(
         headers: { apikey: "JejYcMS7hsOsZTPDk2ZhKOAlW9IyQ6Px" },
       });
       const mbTimings = transformMasjidBoxApiData(mbApiResponse.data);
-      if (mbTimings.length > 0) timings.push(...mbTimings);
+      if (mbTimings.length > 0) {
+        timings.push(...mbTimings);
+        markSource(fetchState, "MasjidBox");
+      }
       return mbTimings.length > 0;
     }
     case "mawaqitUrl": {
       if (!config.mawaqitUrl) return false;
       const mwResponse = await httpClient.get(config.mawaqitUrl);
       const mwTimings = transformMawaqitData(String(mwResponse.data));
-      if (mwTimings.length > 0) timings.push(...mwTimings);
+      if (mwTimings.length > 0) {
+        timings.push(...mwTimings);
+        markSource(fetchState, "Mawaqit");
+      }
       return mwTimings.length > 0;
     }
     case "supabaseUrl": {
       if (!config.supabaseUrl) return false;
       const monthData = await fetchSupabaseMonthDataWithYearFallback(config.supabaseUrl, config.slug);
       const sbTimings = transformSupabaseData(monthData);
-      if (sbTimings.length > 0) timings.push(...sbTimings);
+      if (sbTimings.length > 0) {
+        timings.push(...sbTimings);
+        markSource(fetchState, "Supabase");
+      }
       return sbTimings.length > 0;
     }
   }
@@ -382,11 +450,19 @@ async function scrapeWithPuppeteer(url: string, timeoutMs: number = 15_000): Pro
   }
 }
 
-async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: MosqueConfig): Promise<void> {
+async function scrapePrayerTimings(
+  repoRoot: string,
+  dataDir: string,
+  config: MosqueConfig,
+): Promise<ScrapeOutcome> {
   const filePath = path.join(dataDir, `${config.slug}.json`);
   let mosqueName = config.name;
   const timings: PrayerTiming[] = [];
-  const fetchState: FetchState = { transientFailure: false, failureReason: null };
+  const fetchState: FetchState = {
+    transientFailure: false,
+    failureReason: null,
+    sourceUsed: null,
+  };
 
   try {
     // Special cases (website scrapers)
@@ -397,7 +473,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
         try {
           const monthData = await fetchSupabaseMonthDataWithYearFallback(config.supabaseUrl, config.slug);
           const sbTimings = transformSupabaseData(monthData);
-          if (sbTimings.length > 0) timings.push(...sbTimings);
+          if (sbTimings.length > 0) {
+            timings.push(...sbTimings);
+            markSource(fetchState, "Supabase");
+          }
         } catch (err) {
           console.warn(`[Bury Park] Supabase failed: ${noteTransientFailure(err, fetchState)}`);
         }
@@ -406,7 +485,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
         try {
           const html = await scrapeWithPuppeteer(config.websiteUrl);
           const webTimings = transformBuryParkWebsiteData(html);
-          if (webTimings.length > 0) timings.push(...webTimings);
+          if (webTimings.length > 0) {
+            timings.push(...webTimings);
+            markSource(fetchState, "Website");
+          }
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);
           console.warn(`[Bury Park] Website scraper failed: ${msg}`);
@@ -419,7 +501,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
       try {
         const html = await scrapeWithPuppeteer(config.websiteUrl);
         const webTimings = transformMasjidIrshadWebsiteData(html);
-        if (webTimings.length > 0) timings.push(...webTimings);
+        if (webTimings.length > 0) {
+          timings.push(...webTimings);
+          markSource(fetchState, "Website");
+        }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[Masjid Irshad] Website scraper failed: ${msg}`);
@@ -431,7 +516,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
       try {
         const webResponse = await httpClient.get(config.websiteUrl);
         const webTimings = transformMadinahMasjidWebsiteData(String(webResponse.data));
-        if (webTimings.length > 0) timings.push(...webTimings);
+        if (webTimings.length > 0) {
+          timings.push(...webTimings);
+          markSource(fetchState, "Website");
+        }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[Madinah Masjid] Website scraper failed: ${msg}`);
@@ -443,7 +531,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
       try {
         const html = await scrapeWithPuppeteer(config.websiteUrl);
         const webTimings = transformMasjidEAliWebsiteData(html);
-        if (webTimings.length > 0) timings.push(...webTimings);
+        if (webTimings.length > 0) {
+          timings.push(...webTimings);
+          markSource(fetchState, "Website");
+        }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[Masjid-e-Ali] Website scraper failed: ${msg}`);
@@ -467,7 +558,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
       }
       if (html) {
         const webTimings = transformBaitUlAbrarWebsiteData(html);
-        if (webTimings.length > 0) timings.push(...webTimings);
+        if (webTimings.length > 0) {
+          timings.push(...webTimings);
+          markSource(fetchState, "Website");
+        }
       }
     }
 
@@ -481,7 +575,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
         });
         const csvContent = typeof csvResponse.data === "string" ? csvResponse.data : String(csvResponse.data);
         const sheetTimings = transformGoogleSheetPrayerTimesCsv(csvContent);
-        if (sheetTimings.length > 0) timings.push(...sheetTimings);
+        if (sheetTimings.length > 0) {
+          timings.push(...sheetTimings);
+          markSource(fetchState, "Google Sheet");
+        }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[Google Sheet] CSV fetch failed for ${config.slug}: ${msg}`);
@@ -513,7 +610,10 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
       try {
         const html = await scrapeWithPuppeteer(config.websiteUrl);
         const webTimings = transformFaizanEMushkilKushaWebsiteData(html);
-        if (webTimings.length > 0) timings.push(...webTimings);
+        if (webTimings.length > 0) {
+          timings.push(...webTimings);
+          markSource(fetchState, "Website");
+        }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[Faizan] Website fallback failed: ${msg}`);
@@ -523,15 +623,36 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
     const currentDate = new Date();
     const dayOfMonth = currentDate.getDate();
 
-    if (
-      timings.length === 0 &&
-      tryPreserveExistingData(filePath, currentDate, {
+    if (timings.length === 0) {
+      const preserveResult = tryPreserveExistingData(filePath, currentDate, {
         transientFailure: fetchState.transientFailure,
         failureReason: fetchState.failureReason,
         dayOfMonth,
-      })
-    ) {
-      return;
+      });
+      if (preserveResult.preserved) {
+        const preservedName = preserveResult.mosqueName ?? mosqueName;
+        if (preserveResult.isStale) {
+          return buildOutcome(config, {
+            status: "stale",
+            name: preservedName,
+            reason: preserveResult.staleReason ?? failureReasonText(fetchState),
+            source: "Preserved",
+            ...(preserveResult.dayCount !== undefined ? { dayCount: preserveResult.dayCount } : {}),
+          });
+        }
+        return buildOutcome(config, {
+          status: "ok",
+          name: preservedName,
+          source: "Preserved",
+          ...(preserveResult.dayCount !== undefined ? { dayCount: preserveResult.dayCount } : {}),
+        });
+      }
+
+      return buildOutcome(config, {
+        status: "failed",
+        name: mosqueName,
+        reason: failureReasonText(fetchState),
+      });
     }
 
     const mosqueData: MosqueData = {
@@ -542,9 +663,20 @@ async function scrapePrayerTimings(repoRoot: string, dataDir: string, config: Mo
     };
 
     saveToFile(filePath, mosqueData);
+    return buildOutcome(config, {
+      status: "ok",
+      name: mosqueName,
+      ...(fetchState.sourceUsed ? { source: fetchState.sourceUsed } : {}),
+      dayCount: timings.length,
+    });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error(`Error scraping ${config.slug}: ${msg}`);
+    return buildOutcome(config, {
+      status: "failed",
+      name: mosqueName,
+      reason: msg || "Unknown error",
+    });
   }
 }
 
@@ -566,16 +698,21 @@ export async function runScraper(options: ScrapeOptions): Promise<void> {
   const mosqueConfigsWithMonth = addMonthToMosqueConfigs(filteredMosques);
   console.log(`Scraping ${mosqueConfigsWithMonth.length} mosque(s)...`);
 
+  const outcomes: ScrapeOutcome[] = [];
   const batchSize = 5;
   for (let i = 0; i < mosqueConfigsWithMonth.length; i += batchSize) {
     const batch = mosqueConfigsWithMonth.slice(i, i + batchSize);
-    await Promise.all(batch.map((config) => scrapePrayerTimings(repoRoot, dataDir, config)));
+    const batchOutcomes = await Promise.all(
+      batch.map((config) => scrapePrayerTimings(repoRoot, dataDir, config)),
+    );
+    outcomes.push(...batchOutcomes);
     if (i + batchSize < mosqueConfigsWithMonth.length) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   }
 
   generateMosqueIndex(repoRoot, dataDir);
+  await sendRefreshDump(outcomes);
 }
 
 export async function runFromCli(): Promise<void> {

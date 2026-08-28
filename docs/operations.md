@@ -15,7 +15,10 @@ npm run refresh -- --mosque=masjid-e-noor,zuhri-academy
 npm run refresh:one -- --mosque=masjid-suffa-tul-islam
 ```
 
-Optional local secrets: copy `.env.example` to `.env` (gitignored). `JINA_API_KEY` is used only when a WordPress `wpUrl` returns HTTP 403 and the scraper falls back to the Jina Reader relay.
+Optional local secrets: copy `.env.example` to `.env` (gitignored).
+
+- `JINA_API_KEY` — WordPress 403 fallback via Jina Reader
+- `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` — post a full refresh summary to Telegram after each run (see [`telegram-alerts.md`](telegram-alerts.md))
 
 ## GitHub Actions
 
@@ -35,10 +38,13 @@ On GitHub:
 The workflow will:
 
 1. `npm ci`
-2. Run `npm run refresh` (optionally filtered by `--mosque=...`) with `JINA_API_KEY` from repo secrets
+2. Run `npm run refresh` (optionally filtered by `--mosque=...`) with secrets from the repo
 3. Commit + push any changed JSON artifacts
+4. Send a Telegram summary if bot credentials are configured
 
-Repo secret:
+Repo secrets:
 
 - `JINA_API_KEY` — Jina Reader API key for WordPress 403 fallback (anonymous relay is used if unset)
+- `TELEGRAM_BOT_TOKEN` — from [@BotFather](https://t.me/BotFather); see [`telegram-alerts.md`](telegram-alerts.md)
+- `TELEGRAM_CHAT_ID` — channel or group id the bot can post to
 
