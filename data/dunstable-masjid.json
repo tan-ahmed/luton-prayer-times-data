@@ -591,6 +591,7 @@
       }
     }
   ],
-  "lastChecked": "2026-08-31T04:11:56.757Z",
-  "isStale": false
+  "lastChecked": "2026-09-01T04:01:20.999Z",
+  "isStale": true,
+  "staleReason": "Source timed out"
 }
