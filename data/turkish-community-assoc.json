@@ -2,15 +2,6 @@
   "mosqueName": "Turkish Community Assoc",
   "timings": [
     {
-      "day": "Sunday",
-      "date": "06-09-2026",
-      "fajr": "05:15",
-      "zuhr": "13:10",
-      "asr": "17:50",
-      "magrib": "19:41",
-      "isha": "22:15"
-    },
-    {
       "day": "Monday",
       "date": "07-09-2026",
       "fajr": "05:15",
@@ -227,6 +218,6 @@
       "isha": "22:15"
     }
   ],
-  "lastChecked": "2026-09-06T03:22:03.180Z",
+  "lastChecked": "2026-09-07T03:20:58.574Z",
   "isStale": false
 }
