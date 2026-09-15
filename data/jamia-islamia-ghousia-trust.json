@@ -2,15 +2,6 @@
   "mosqueName": "Jamia Islamia Ghousia Trust",
   "timings": [
     {
-      "day": "Monday",
-      "date": "14-09-2026",
-      "fajr": "06:00",
-      "zuhr": "14:00",
-      "asr": "17:45",
-      "magrib": "19:23",
-      "isha": "20:50"
-    },
-    {
       "day": "Tuesday",
       "date": "15-09-2026",
       "fajr": "06:00",
@@ -155,6 +146,6 @@
       "isha": "20:30"
     }
   ],
-  "lastChecked": "2026-09-14T03:47:16.987Z",
+  "lastChecked": "2026-09-15T03:47:51.949Z",
   "isStale": false
 }
