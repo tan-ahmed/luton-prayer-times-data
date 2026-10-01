@@ -572,6 +572,7 @@
       }
     }
   ],
-  "lastChecked": "2026-09-30T04:24:58.570Z",
-  "isStale": false
+  "lastChecked": "2026-10-01T04:36:41.302Z",
+  "isStale": true,
+  "staleReason": "Source server error"
 }
