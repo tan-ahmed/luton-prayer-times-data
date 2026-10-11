@@ -2,8 +2,8 @@
   "mosqueName": "Madinah Masjid",
   "timings": [
     {
-      "day": "Saturday",
-      "date": "10-10-2026",
+      "day": "Sunday",
+      "date": "11-10-2026",
       "fajr": "06:45",
       "zuhr": "13:00",
       "asr": "14:30",
@@ -11,6 +11,6 @@
       "isha": "19:15"
     }
   ],
-  "lastChecked": "2026-10-10T04:44:47.683Z",
+  "lastChecked": "2026-10-11T04:29:52.613Z",
   "isStale": false
 }
