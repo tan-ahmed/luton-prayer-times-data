@@ -2,15 +2,6 @@
   "mosqueName": "Masjid-e-Ali",
   "timings": [
     {
-      "day": "Thursday",
-      "date": "15-10-2026",
-      "fajr": "05:55",
-      "zuhr": "12:49",
-      "asr": "",
-      "magrib": "18:25",
-      "isha": ""
-    },
-    {
       "day": "Friday",
       "date": "16-10-2026",
       "fajr": "05:57",
@@ -155,6 +146,6 @@
       "isha": ""
     }
   ],
-  "lastChecked": "2026-10-15T03:34:52.821Z",
+  "lastChecked": "2026-10-16T03:30:53.192Z",
   "isStale": false
 }
