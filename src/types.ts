@@ -67,6 +67,28 @@ export interface MosqueIndex {
   lastUpdated: string;
 }
 
+/** Today's jamah only — one row per mosque for the Near tab. */
+export interface NearTodayJamah {
+  fajr: string;
+  zuhr: string;
+  asr: string;
+  magrib: string;
+  isha: string;
+}
+
+export interface NearTodayMosque {
+  name: string;
+  slug: string;
+  jamah: NearTodayJamah;
+}
+
+export interface NearToday {
+  /** DD-MM-YYYY */
+  date: string;
+  lastUpdated: string;
+  mosques: NearTodayMosque[];
+}
+
 export type ScrapeStatus = "ok" | "stale" | "failed";
 
 export type ScrapeSource =

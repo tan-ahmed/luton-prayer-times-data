@@ -13,6 +13,7 @@ Consumers typically set that as `MOSQUE_DATA_BASE_URL` and fetch:
 | Path | Purpose |
 |------|---------|
 | `/mosque-index.json` | List of mosques + whether each has timings |
+| `/near-today.json` | Today's jamah for every mosque (Near tab; one request) |
 | `/data/<slug>.json` | Per-mosque prayer times for the current scrape |
 
 Source of truth for TypeScript shapes: [`src/types.ts`](../src/types.ts).
@@ -39,6 +40,40 @@ Notes:
 
 - `dataFile` is a relative path used for convenience/diagnostics; the app typically fetches `data/<slug>.json` directly.
 - `hasData` should reflect whether `timings.length > 0`.
+
+---
+
+## `near-today.json`
+
+Derived at refresh time from `data/<slug>.json`. One HTTP request for the app's **Near** tab (town-wide jamah for the next prayer).
+
+```json
+{
+  "date": "25-10-2026",
+  "lastUpdated": "2026-10-25T21:31:36.525Z",
+  "mosques": [
+    {
+      "name": "Luton Central Masjid",
+      "slug": "luton-central-masjid",
+      "jamah": {
+        "fajr": "06:45",
+        "zuhr": "14:00",
+        "asr": "16:30",
+        "magrib": "17:53",
+        "isha": "20:00"
+      }
+    }
+  ]
+}
+```
+
+Notes:
+
+- `date` is `DD-MM-YYYY` for the calendar day used when generating the file.
+- Only mosques with a timing row for that date are included.
+- Jamah only (no `begins` / `sunrise`). Multi-token fields (e.g. Zuhr) keep the first token.
+- Mosques are sorted A–Z by name. The app groups by jamah clock for the upcoming prayer.
+- Rebuild without scraping: `npm run generate:near`.
 
 ---
 
@@ -179,6 +214,27 @@ export interface MosqueIndex {
   mosques: MosqueIndexEntry[];
   lastUpdated: string;
 }
+
+export interface NearTodayJamah {
+  fajr: string;
+  zuhr: string;
+  asr: string;
+  magrib: string;
+  isha: string;
+}
+
+export interface NearTodayMosque {
+  name: string;
+  slug: string;
+  jamah: NearTodayJamah;
+}
+
+export interface NearToday {
+  /** DD-MM-YYYY */
+  date: string;
+  lastUpdated: string;
+  mosques: NearTodayMosque[];
+}
 ```
 
 ---
@@ -207,9 +263,14 @@ if (day) {
   console.log("begins", day.begins); // may be undefined — fall back if needed
   console.log("sunrise", day.sunrise);
 }
+
+// Town-wide today's jamah (Near tab) — one fetch
+const near = (await fetch(`${BASE}/near-today.json`).then((r) => r.json())) as NearToday;
+console.log(near.date, near.mosques.length);
 ```
 
 Suggested consumer rule:
 
 1. Prefer mosque `begins` when present.
 2. Otherwise fall back to a generic calendar (e.g. Aladhan) for start times, and still use top-level fields for jamah.
+3. For a town-wide jamah list for today, prefer `near-today.json` over N× `data/<slug>.json`.

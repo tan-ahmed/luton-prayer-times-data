@@ -4,7 +4,14 @@ import https from "node:https";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { parse as parseCsv } from "csv-parse/sync";
-import type { MosqueData, MosqueIndex, PrayerBeginsTiming, PrayerKey, PrayerTiming } from "./types";
+import type {
+  MosqueData,
+  MosqueIndex,
+  NearToday,
+  PrayerBeginsTiming,
+  PrayerKey,
+  PrayerTiming,
+} from "./types";
 
 export function ensureDataDirectory(repoRoot: string): string {
   const dataDir = path.join(repoRoot, "data");
@@ -69,6 +76,78 @@ export function generateMosqueIndex(repoRoot: string, dataDir: string): string |
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`Error generating mosque index: ${message}`);
+    return null;
+  }
+}
+
+/** Today's date as DD-MM-YYYY (same convention as PrayerTiming.date). */
+export function getTodayDateString(now: Date = new Date()): string {
+  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const year = now.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+/** First jamah token — matches the app's Zuhr handling (`"13:30 14:30"` → `"13:30"`). */
+export function firstJamahToken(raw: string | undefined): string {
+  if (!raw) return "";
+  return raw.trim().split(/\s+/)[0] ?? "";
+}
+
+/**
+ * Derived artifact for the Near tab: today's jamah for every mosque that
+ * has a timing row for `date`. Mosques without that date are omitted.
+ */
+export function generateNearToday(
+  repoRoot: string,
+  dataDir: string,
+  now: Date = new Date(),
+): string | null {
+  const date = getTodayDateString(now);
+  const near: NearToday = {
+    date,
+    lastUpdated: now.toISOString(),
+    mosques: [],
+  };
+
+  try {
+    const files = fs.readdirSync(dataDir).filter((file) => file.endsWith(".json"));
+    for (const file of files) {
+      const filePath = path.join(dataDir, file);
+      try {
+        const data = JSON.parse(fs.readFileSync(filePath, "utf8")) as MosqueData;
+        const timing = data.timings?.find((t) => t.date === date);
+        if (!timing) continue;
+
+        const jamah = {
+          fajr: firstJamahToken(timing.fajr),
+          zuhr: firstJamahToken(timing.zuhr),
+          asr: firstJamahToken(timing.asr),
+          magrib: firstJamahToken(timing.magrib),
+          isha: firstJamahToken(timing.isha),
+        };
+        if (!jamah.fajr && !jamah.zuhr && !jamah.asr && !jamah.magrib && !jamah.isha) {
+          continue;
+        }
+
+        near.mosques.push({
+          name: data.mosqueName,
+          slug: file.replace(".json", ""),
+          jamah,
+        });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`Error reading ${file} for near-today: ${message}`);
+      }
+    }
+
+    near.mosques.sort((a, b) => a.name.localeCompare(b.name));
+    const nearPath = path.join(repoRoot, "near-today.json");
+    saveToFile(nearPath, near);
+    return nearPath;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Error generating near-today: ${message}`);
     return null;
   }
 }

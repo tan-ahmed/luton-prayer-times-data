@@ -39,7 +39,7 @@ The workflow will:
 
 1. `npm ci`
 2. Run `npm run refresh` (optionally filtered by `--mosque=...`) with secrets from the repo
-3. Commit + push any changed JSON artifacts
+3. Commit + push any changed JSON artifacts (`data/<slug>.json`, `mosque-index.json`, `near-today.json`)
 4. Send a Telegram summary if bot credentials are configured
 
 Repo secrets:

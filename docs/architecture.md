@@ -7,6 +7,7 @@ Serve prayer times to the mobile/web app using **static JSON** (cheap, fast, rel
 The app fetches:
 
 - `mosque-index.json`
+- `near-today.json`
 - `data/<slug>.json`
 
 from a base URL (typically GitHub Raw).
@@ -18,8 +19,10 @@ from a base URL (typically GitHub Raw).
 3. **Write artifacts** into this repo:
    - `data/<slug>.json`
    - `mosque-index.json` (computed from `data/`)
+   - `near-today.json` (today's jamah per mosque, computed from `data/`)
 4. **Publish** by committing to `main`, which makes the JSON available at:
    - `https://raw.githubusercontent.com/tan-ahmed/luton-prayer-times-data/main/mosque-index.json`
+   - `https://raw.githubusercontent.com/tan-ahmed/luton-prayer-times-data/main/near-today.json`
    - `https://raw.githubusercontent.com/tan-ahmed/luton-prayer-times-data/main/data/<slug>.json`
 
 Consumer-facing schema, TypeScript types, and begins coverage: [`data-contract.md`](data-contract.md).
