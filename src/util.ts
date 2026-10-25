@@ -8,6 +8,7 @@ import type {
   MosqueData,
   MosqueIndex,
   NearToday,
+  NearTomorrowFajrMosque,
   PrayerBeginsTiming,
   PrayerKey,
   PrayerTiming,
@@ -80,12 +81,19 @@ export function generateMosqueIndex(repoRoot: string, dataDir: string): string |
   }
 }
 
-/** Today's date as DD-MM-YYYY (same convention as PrayerTiming.date). */
+/** Calendar date as DD-MM-YYYY (same convention as PrayerTiming.date). */
 export function getTodayDateString(now: Date = new Date()): string {
   const day = String(now.getDate()).padStart(2, "0");
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const year = now.getFullYear();
   return `${day}-${month}-${year}`;
+}
+
+/** Next calendar day as DD-MM-YYYY. */
+export function getTomorrowDateString(now: Date = new Date()): string {
+  const next = new Date(now);
+  next.setDate(next.getDate() + 1);
+  return getTodayDateString(next);
 }
 
 /** First jamah token — matches the app's Zuhr handling (`"13:30 14:30"` → `"13:30"`). */
@@ -96,7 +104,7 @@ export function firstJamahToken(raw: string | undefined): string {
 
 /**
  * Derived artifact for the Near tab: today's jamah for every mosque that
- * has a timing row for `date`. Mosques without that date are omitted.
+ * has a timing row for `date`, plus tomorrow's Fajr when available.
  */
 export function generateNearToday(
   repoRoot: string,
@@ -104,11 +112,13 @@ export function generateNearToday(
   now: Date = new Date(),
 ): string | null {
   const date = getTodayDateString(now);
+  const tomorrowDate = getTomorrowDateString(now);
   const near: NearToday = {
     date,
     lastUpdated: now.toISOString(),
     mosques: [],
   };
+  const tomorrowMosques: NearTomorrowFajrMosque[] = [];
 
   try {
     const files = fs.readdirSync(dataDir).filter((file) => file.endsWith(".json"));
@@ -116,25 +126,34 @@ export function generateNearToday(
       const filePath = path.join(dataDir, file);
       try {
         const data = JSON.parse(fs.readFileSync(filePath, "utf8")) as MosqueData;
+        const slug = file.replace(".json", "");
         const timing = data.timings?.find((t) => t.date === date);
-        if (!timing) continue;
-
-        const jamah = {
-          fajr: firstJamahToken(timing.fajr),
-          zuhr: firstJamahToken(timing.zuhr),
-          asr: firstJamahToken(timing.asr),
-          magrib: firstJamahToken(timing.magrib),
-          isha: firstJamahToken(timing.isha),
-        };
-        if (!jamah.fajr && !jamah.zuhr && !jamah.asr && !jamah.magrib && !jamah.isha) {
-          continue;
+        if (timing) {
+          const jamah = {
+            fajr: firstJamahToken(timing.fajr),
+            zuhr: firstJamahToken(timing.zuhr),
+            asr: firstJamahToken(timing.asr),
+            magrib: firstJamahToken(timing.magrib),
+            isha: firstJamahToken(timing.isha),
+          };
+          if (jamah.fajr || jamah.zuhr || jamah.asr || jamah.magrib || jamah.isha) {
+            near.mosques.push({
+              name: data.mosqueName,
+              slug,
+              jamah,
+            });
+          }
         }
 
-        near.mosques.push({
-          name: data.mosqueName,
-          slug: file.replace(".json", ""),
-          jamah,
-        });
+        const tomorrowTiming = data.timings?.find((t) => t.date === tomorrowDate);
+        const fajr = firstJamahToken(tomorrowTiming?.fajr);
+        if (fajr) {
+          tomorrowMosques.push({
+            name: data.mosqueName,
+            slug,
+            fajr,
+          });
+        }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         console.error(`Error reading ${file} for near-today: ${message}`);
@@ -142,6 +161,11 @@ export function generateNearToday(
     }
 
     near.mosques.sort((a, b) => a.name.localeCompare(b.name));
+    if (tomorrowMosques.length > 0) {
+      tomorrowMosques.sort((a, b) => a.name.localeCompare(b.name));
+      near.tomorrow = { date: tomorrowDate, mosques: tomorrowMosques };
+    }
+
     const nearPath = path.join(repoRoot, "near-today.json");
     saveToFile(nearPath, near);
     return nearPath;

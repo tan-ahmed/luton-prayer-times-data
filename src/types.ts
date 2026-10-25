@@ -82,11 +82,26 @@ export interface NearTodayMosque {
   jamah: NearTodayJamah;
 }
 
+/** Tomorrow's Fajr only — used by Near after the last Isha jamah. */
+export interface NearTomorrowFajrMosque {
+  name: string;
+  slug: string;
+  fajr: string;
+}
+
+export interface NearTomorrowFajr {
+  /** DD-MM-YYYY */
+  date: string;
+  mosques: NearTomorrowFajrMosque[];
+}
+
 export interface NearToday {
   /** DD-MM-YYYY */
   date: string;
   lastUpdated: string;
   mosques: NearTodayMosque[];
+  /** Present when at least one mosque has a Fajr time for the next calendar day. */
+  tomorrow?: NearTomorrowFajr;
 }
 
 export type ScrapeStatus = "ok" | "stale" | "failed";

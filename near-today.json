@@ -1,6 +1,6 @@
 {
   "date": "25-10-2026",
-  "lastUpdated": "2026-10-25T21:34:15.738Z",
+  "lastUpdated": "2026-10-25T21:39:06.136Z",
   "mosques": [
     {
       "name": "Al Furqan",
@@ -288,5 +288,140 @@
         "isha": "19:40"
       }
     }
-  ]
+  ],
+  "tomorrow": {
+    "date": "26-10-2026",
+    "mosques": [
+      {
+        "name": "Al Furqan",
+        "slug": "al-furqan",
+        "fajr": "05:45"
+      },
+      {
+        "name": "Al Hira Centre",
+        "slug": "al-hira-centre",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Al Jalal Masjid",
+        "slug": "al-jalal-masjid",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Bait Ul Abrar Jamia Masjid",
+        "slug": "bait-ul-abrar-jamia-masjid",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Bury Park Jamia Masjid",
+        "slug": "bury-park-jamia-masjid",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Dunstable Masjid",
+        "slug": "dunstable-masjid",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Faizan-e-Mushkil Kusha",
+        "slug": "faizan-e-mushkil-kusha",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Farley Hill Masjid",
+        "slug": "farley-hill-masjid",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Hockwell Ring Masjid",
+        "slug": "hockwell-ring-masjid",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Jamia Al-Akbaria",
+        "slug": "jamia-al-akbaria",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Jamia Islamia Ghousia Trust",
+        "slug": "jamia-islamia-ghousia-trust",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Kokni Masjid",
+        "slug": "kokni-masjid",
+        "fajr": "05:45"
+      },
+      {
+        "name": "Leagrave Hall Masjid",
+        "slug": "leagrave-hall-masjid",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Luton Central Masjid",
+        "slug": "luton-central-masjid",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Luton Islamic Centre",
+        "slug": "luton-islamic-centre",
+        "fajr": "05:45"
+      },
+      {
+        "name": "Masjid Al-Huda",
+        "slug": "masjid-al-huda",
+        "fajr": "05:45"
+      },
+      {
+        "name": "Masjid As-Sunnah",
+        "slug": "masjid-as-sunnah",
+        "fajr": "05:40"
+      },
+      {
+        "name": "Masjid Bilal",
+        "slug": "masjid-bilal",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Masjid Irshad",
+        "slug": "masjid-irshad",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Masjid Suffa-Tul-Islam",
+        "slug": "masjid-suffa-tul-islam",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Masjid-e-Ali",
+        "slug": "masjid-e-ali",
+        "fajr": "05:13"
+      },
+      {
+        "name": "Masjid-e-Noor",
+        "slug": "masjid-e-noor",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Saints Area Masjid",
+        "slug": "saints-area-masjid",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Yusuf Hall",
+        "slug": "yusuf-hall",
+        "fajr": "06:00"
+      },
+      {
+        "name": "Zakariya Masjid",
+        "slug": "zakariya-masjid",
+        "fajr": "06:15"
+      },
+      {
+        "name": "Zuhri Academy",
+        "slug": "zuhri-academy",
+        "fajr": "06:15"
+      }
+    ]
+  }
 }

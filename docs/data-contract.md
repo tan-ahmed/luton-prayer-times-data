@@ -63,16 +63,27 @@ Derived at refresh time from `data/<slug>.json`. One HTTP request for the app's 
         "isha": "20:00"
       }
     }
-  ]
+  ],
+  "tomorrow": {
+    "date": "26-10-2026",
+    "mosques": [
+      {
+        "name": "Luton Central Masjid",
+        "slug": "luton-central-masjid",
+        "fajr": "06:45"
+      }
+    ]
+  }
 }
 ```
 
 Notes:
 
 - `date` is `DD-MM-YYYY` for the calendar day used when generating the file.
-- Only mosques with a timing row for that date are included.
+- Only mosques with a timing row for that date are included in `mosques`.
 - Jamah only (no `begins` / `sunrise`). Multi-token fields (e.g. Zuhr) keep the first token.
 - Mosques are sorted A–Z by name. The app groups by jamah clock for the upcoming prayer.
+- `tomorrow` is optional: next calendar day's Fajr only. The Near tab uses it after the last Isha jamah today (subtitle: “Tomorrow's Fajr jama'ah…”).
 - Rebuild without scraping: `npm run generate:near`.
 
 ---
@@ -229,11 +240,24 @@ export interface NearTodayMosque {
   jamah: NearTodayJamah;
 }
 
+export interface NearTomorrowFajrMosque {
+  name: string;
+  slug: string;
+  fajr: string;
+}
+
+export interface NearTomorrowFajr {
+  /** DD-MM-YYYY */
+  date: string;
+  mosques: NearTomorrowFajrMosque[];
+}
+
 export interface NearToday {
   /** DD-MM-YYYY */
   date: string;
   lastUpdated: string;
   mosques: NearTodayMosque[];
+  tomorrow?: NearTomorrowFajr;
 }
 ```
 
