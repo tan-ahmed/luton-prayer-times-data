@@ -67,8 +67,8 @@ export interface MosqueIndex {
   lastUpdated: string;
 }
 
-/** Today's jamah only — one row per mosque for the Near tab. */
-export interface NearTodayJamah {
+/** Today's jamah only — one row per mosque for the Soon tab. */
+export interface SoonTodayJamah {
   fajr: string;
   zuhr: string;
   asr: string;
@@ -76,32 +76,32 @@ export interface NearTodayJamah {
   isha: string;
 }
 
-export interface NearTodayMosque {
+export interface SoonTodayMosque {
   name: string;
   slug: string;
-  jamah: NearTodayJamah;
+  jamah: SoonTodayJamah;
 }
 
-/** Tomorrow's Fajr only — used by Near after the last Isha jamah. */
-export interface NearTomorrowFajrMosque {
+/** Tomorrow's Fajr only — used by Soon after the last Isha jamah. */
+export interface SoonTomorrowFajrMosque {
   name: string;
   slug: string;
   fajr: string;
 }
 
-export interface NearTomorrowFajr {
+export interface SoonTomorrowFajr {
   /** DD-MM-YYYY */
   date: string;
-  mosques: NearTomorrowFajrMosque[];
+  mosques: SoonTomorrowFajrMosque[];
 }
 
-export interface NearToday {
+export interface SoonToday {
   /** DD-MM-YYYY */
   date: string;
   lastUpdated: string;
-  mosques: NearTodayMosque[];
+  mosques: SoonTodayMosque[];
   /** Present when at least one mosque has a Fajr time for the next calendar day. */
-  tomorrow?: NearTomorrowFajr;
+  tomorrow?: SoonTomorrowFajr;
 }
 
 export type ScrapeStatus = "ok" | "stale" | "failed";

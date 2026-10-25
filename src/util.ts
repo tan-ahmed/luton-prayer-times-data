@@ -7,11 +7,11 @@ import { parse as parseCsv } from "csv-parse/sync";
 import type {
   MosqueData,
   MosqueIndex,
-  NearToday,
-  NearTomorrowFajrMosque,
   PrayerBeginsTiming,
   PrayerKey,
   PrayerTiming,
+  SoonToday,
+  SoonTomorrowFajrMosque,
 } from "./types";
 
 export function ensureDataDirectory(repoRoot: string): string {
@@ -103,22 +103,22 @@ export function firstJamahToken(raw: string | undefined): string {
 }
 
 /**
- * Derived artifact for the Near tab: today's jamah for every mosque that
+ * Derived artifact for the Soon tab: today's jamah for every mosque that
  * has a timing row for `date`, plus tomorrow's Fajr when available.
  */
-export function generateNearToday(
+export function generateSoonToday(
   repoRoot: string,
   dataDir: string,
   now: Date = new Date(),
 ): string | null {
   const date = getTodayDateString(now);
   const tomorrowDate = getTomorrowDateString(now);
-  const near: NearToday = {
+  const soon: SoonToday = {
     date,
     lastUpdated: now.toISOString(),
     mosques: [],
   };
-  const tomorrowMosques: NearTomorrowFajrMosque[] = [];
+  const tomorrowMosques: SoonTomorrowFajrMosque[] = [];
 
   try {
     const files = fs.readdirSync(dataDir).filter((file) => file.endsWith(".json"));
@@ -137,7 +137,7 @@ export function generateNearToday(
             isha: firstJamahToken(timing.isha),
           };
           if (jamah.fajr || jamah.zuhr || jamah.asr || jamah.magrib || jamah.isha) {
-            near.mosques.push({
+            soon.mosques.push({
               name: data.mosqueName,
               slug,
               jamah,
@@ -156,22 +156,22 @@ export function generateNearToday(
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        console.error(`Error reading ${file} for near-today: ${message}`);
+        console.error(`Error reading ${file} for soon-today: ${message}`);
       }
     }
 
-    near.mosques.sort((a, b) => a.name.localeCompare(b.name));
+    soon.mosques.sort((a, b) => a.name.localeCompare(b.name));
     if (tomorrowMosques.length > 0) {
       tomorrowMosques.sort((a, b) => a.name.localeCompare(b.name));
-      near.tomorrow = { date: tomorrowDate, mosques: tomorrowMosques };
+      soon.tomorrow = { date: tomorrowDate, mosques: tomorrowMosques };
     }
 
-    const nearPath = path.join(repoRoot, "near-today.json");
-    saveToFile(nearPath, near);
-    return nearPath;
+    const soonPath = path.join(repoRoot, "soon-today.json");
+    saveToFile(soonPath, soon);
+    return soonPath;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error generating near-today: ${message}`);
+    console.error(`Error generating soon-today: ${message}`);
     return null;
   }
 }

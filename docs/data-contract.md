@@ -13,7 +13,7 @@ Consumers typically set that as `MOSQUE_DATA_BASE_URL` and fetch:
 | Path | Purpose |
 |------|---------|
 | `/mosque-index.json` | List of mosques + whether each has timings |
-| `/near-today.json` | Today's jamah for every mosque (Near tab; one request) |
+| `/soon-today.json` | Today's jamah for every mosque (Soon tab; one request) |
 | `/data/<slug>.json` | Per-mosque prayer times for the current scrape |
 
 Source of truth for TypeScript shapes: [`src/types.ts`](../src/types.ts).
@@ -43,9 +43,9 @@ Notes:
 
 ---
 
-## `near-today.json`
+## `soon-today.json`
 
-Derived at refresh time from `data/<slug>.json`. One HTTP request for the app's **Near** tab (town-wide jamah for the next prayer).
+Derived at refresh time from `data/<slug>.json`. One HTTP request for the app's **Soon** tab (town-wide jamah for the next prayer).
 
 ```json
 {
@@ -83,8 +83,8 @@ Notes:
 - Only mosques with a timing row for that date are included in `mosques`.
 - Jamah only (no `begins` / `sunrise`). Multi-token fields (e.g. Zuhr) keep the first token.
 - Mosques are sorted A–Z by name. The app groups by jamah clock for the upcoming prayer.
-- `tomorrow` is optional: next calendar day's Fajr only. The Near tab uses it after the last Isha jamah today (subtitle: “Tomorrow's Fajr jama'ah…”).
-- Rebuild without scraping: `npm run generate:near`.
+- `tomorrow` is optional: next calendar day's Fajr only. The Soon tab uses it after the last Isha jamah today (subtitle: “Tomorrow's Fajr jama'ah…”).
+- Rebuild without scraping: `npm run generate:soon`.
 
 ---
 
@@ -226,7 +226,7 @@ export interface MosqueIndex {
   lastUpdated: string;
 }
 
-export interface NearTodayJamah {
+export interface SoonTodayJamah {
   fajr: string;
   zuhr: string;
   asr: string;
@@ -234,30 +234,30 @@ export interface NearTodayJamah {
   isha: string;
 }
 
-export interface NearTodayMosque {
+export interface SoonTodayMosque {
   name: string;
   slug: string;
-  jamah: NearTodayJamah;
+  jamah: SoonTodayJamah;
 }
 
-export interface NearTomorrowFajrMosque {
+export interface SoonTomorrowFajrMosque {
   name: string;
   slug: string;
   fajr: string;
 }
 
-export interface NearTomorrowFajr {
+export interface SoonTomorrowFajr {
   /** DD-MM-YYYY */
   date: string;
-  mosques: NearTomorrowFajrMosque[];
+  mosques: SoonTomorrowFajrMosque[];
 }
 
-export interface NearToday {
+export interface SoonToday {
   /** DD-MM-YYYY */
   date: string;
   lastUpdated: string;
-  mosques: NearTodayMosque[];
-  tomorrow?: NearTomorrowFajr;
+  mosques: SoonTodayMosque[];
+  tomorrow?: SoonTomorrowFajr;
 }
 ```
 
@@ -288,13 +288,13 @@ if (day) {
   console.log("sunrise", day.sunrise);
 }
 
-// Town-wide today's jamah (Near tab) — one fetch
-const near = (await fetch(`${BASE}/near-today.json`).then((r) => r.json())) as NearToday;
-console.log(near.date, near.mosques.length);
+// Town-wide today's jamah (Soon tab) — one fetch
+const soon = (await fetch(`${BASE}/soon-today.json`).then((r) => r.json())) as SoonToday;
+console.log(soon.date, soon.mosques.length);
 ```
 
 Suggested consumer rule:
 
 1. Prefer mosque `begins` when present.
 2. Otherwise fall back to a generic calendar (e.g. Aladhan) for start times, and still use top-level fields for jamah.
-3. For a town-wide jamah list for today, prefer `near-today.json` over N× `data/<slug>.json`.
+3. For a town-wide jamah list for today, prefer `soon-today.json` over N× `data/<slug>.json`.

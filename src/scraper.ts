@@ -8,7 +8,7 @@ import {
   addMonthToMosqueConfigs,
   ensureDataDirectory,
   generateMosqueIndex,
-  generateNearToday,
+  generateSoonToday,
   httpClient,
   saveToFile,
   transformBaitUlAbrarWebsiteData,
@@ -733,7 +733,7 @@ export async function runScraper(options: ScrapeOptions): Promise<void> {
   }
 
   generateMosqueIndex(repoRoot, dataDir);
-  generateNearToday(repoRoot, dataDir);
+  generateSoonToday(repoRoot, dataDir);
   await sendRefreshDump(outcomes);
 }
 

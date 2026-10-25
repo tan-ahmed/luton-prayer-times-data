@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/tan-ahmed/luton-prayer-times-data/main
 | File | Description |
 |------|-------------|
 | `mosque-index.json` | Mosque list + `hasData` |
-| `near-today.json` | Today's jamah only for every mosque that has today's date (Near tab) |
+| `soon-today.json` | Today's jamah only for every mosque that has today's date (Soon tab) |
 | `data/<slug>.json` | Jamah times; optional `begins` + `sunrise` when the source provides them |
 
 **Types, field meanings, example fetch code, and which mosques still lack `begins`:** see [`docs/data-contract.md`](docs/data-contract.md).
@@ -34,8 +34,8 @@ npm run refresh -- --mosque=masjid-e-noor,zuhri-academy
 # Refresh exactly one mosque (same script; just pass one slug)
 npm run refresh:one -- --mosque=masjid-suffa-tul-islam
 
-# Rebuild near-today.json from existing data/ (no scrape)
-npm run generate:near
+# Rebuild soon-today.json from existing data/ (no scrape)
+npm run generate:soon
 ```
 
 ## GitHub Actions
