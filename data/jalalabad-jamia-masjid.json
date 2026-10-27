@@ -572,7 +572,7 @@
       }
     }
   ],
-  "lastChecked": "2026-10-26T03:37:34.315Z",
+  "lastChecked": "2026-10-27T04:01:49.252Z",
   "isStale": true,
-  "staleReason": "Source timed out"
+  "staleReason": "Source server error"
 }
