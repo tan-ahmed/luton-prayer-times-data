@@ -2,23 +2,6 @@
   "mosqueName": "Masjid Suffa-Tul-Islam",
   "timings": [
     {
-      "day": "Tuesday",
-      "date": "03-11-2026",
-      "fajr": "06:15",
-      "zuhr": "13:00",
-      "asr": "15:00",
-      "magrib": "16:33",
-      "isha": "18:50",
-      "sunrise": "07:00",
-      "begins": {
-        "fajr": "05:05",
-        "zuhr": "11:45",
-        "asr": "14:41",
-        "magrib": "16:33",
-        "isha": "18:25"
-      }
-    },
-    {
       "day": "Wednesday",
       "date": "04-11-2026",
       "fajr": "06:15",
@@ -34,8 +17,25 @@
         "magrib": "16:32",
         "isha": "18:23"
       }
+    },
+    {
+      "day": "Thursday",
+      "date": "05-11-2026",
+      "fajr": "06:15",
+      "zuhr": "13:00",
+      "asr": "15:00",
+      "magrib": "16:30",
+      "isha": "18:50",
+      "sunrise": "07:04",
+      "begins": {
+        "fajr": "05:08",
+        "zuhr": "11:45",
+        "asr": "14:38",
+        "magrib": "16:30",
+        "isha": "18:22"
+      }
     }
   ],
-  "lastChecked": "2026-11-03T11:19:24.924Z",
+  "lastChecked": "2026-11-04T04:07:23.819Z",
   "isStale": false
 }
