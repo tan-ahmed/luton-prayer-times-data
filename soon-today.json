@@ -1,6 +1,6 @@
 {
-  "date": "07-11-2026",
-  "lastUpdated": "2026-11-07T03:53:40.264Z",
+  "date": "08-11-2026",
+  "lastUpdated": "2026-11-08T03:37:54.115Z",
   "mosques": [
     {
       "name": "Al Furqan",
@@ -9,7 +9,7 @@
         "fajr": "06:15",
         "zuhr": "12:45",
         "asr": "14:45",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "20:00"
       }
     },
@@ -20,7 +20,7 @@
         "fajr": "06:15",
         "zuhr": "12:45",
         "asr": "15:00",
-        "magrib": "16:26",
+        "magrib": "16:24",
         "isha": "18:45"
       }
     },
@@ -31,7 +31,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:30",
+        "magrib": "16:29",
         "isha": "19:30"
       }
     },
@@ -53,7 +53,7 @@
         "fajr": "06:30",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "19:30"
       }
     },
@@ -61,10 +61,10 @@
       "name": "Dunstable Masjid",
       "slug": "dunstable-masjid",
       "jamah": {
-        "fajr": "06:15",
+        "fajr": "06:30",
         "zuhr": "13:15",
         "asr": "14:50",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "19:00"
       }
     },
@@ -75,7 +75,7 @@
         "fajr": "06:30",
         "zuhr": "13:35",
         "asr": "15:00",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:45"
       }
     },
@@ -83,10 +83,10 @@
       "name": "Farley Hill Masjid",
       "slug": "farley-hill-masjid",
       "jamah": {
-        "fajr": "06:15",
+        "fajr": "06:30",
         "zuhr": "13:00",
-        "asr": "15:15",
-        "magrib": "16:27",
+        "asr": "15:00",
+        "magrib": "16:25",
         "isha": "19:00"
       }
     },
@@ -97,7 +97,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:32",
+        "magrib": "16:30",
         "isha": "19:15"
       }
     },
@@ -105,10 +105,10 @@
       "name": "Jalalabad Jamia Masjid",
       "slug": "jalalabad-jamia-masjid",
       "jamah": {
-        "fajr": "06:15",
+        "fajr": "06:30",
         "zuhr": "13:00",
-        "asr": "15:30",
-        "magrib": "16:29",
+        "asr": "15:15",
+        "magrib": "16:27",
         "isha": "19:30"
       }
     },
@@ -119,7 +119,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:45"
       }
     },
@@ -130,7 +130,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:15",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:30"
       }
     },
@@ -141,7 +141,7 @@
         "fajr": "06:15",
         "zuhr": "12:30",
         "asr": "14:30",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:30"
       }
     },
@@ -149,10 +149,10 @@
       "name": "Leagrave Hall Masjid",
       "slug": "leagrave-hall-masjid",
       "jamah": {
-        "fajr": "06:15",
-        "zuhr": "12:45",
-        "asr": "15:30",
-        "magrib": "16:28",
+        "fajr": "06:30",
+        "zuhr": "13:00",
+        "asr": "15:15",
+        "magrib": "16:26",
         "isha": "19:30"
       }
     },
@@ -163,7 +163,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:45"
       }
     },
@@ -171,11 +171,11 @@
       "name": "Luton Islamic Centre",
       "slug": "luton-islamic-centre",
       "jamah": {
-        "fajr": "06:04",
+        "fajr": "06:05",
         "zuhr": "12:08",
-        "asr": "14:13",
-        "magrib": "16:31",
-        "isha": "17:46"
+        "asr": "14:12",
+        "magrib": "16:29",
+        "isha": "17:44"
       }
     },
     {
@@ -185,7 +185,7 @@
         "fajr": "06:00",
         "zuhr": "12:30",
         "asr": "14:30",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "19:00"
       }
     },
@@ -196,7 +196,7 @@
         "fajr": "06:05",
         "zuhr": "12:30",
         "asr": "14:30",
-        "magrib": "16:31",
+        "magrib": "16:29",
         "isha": "20:00"
       }
     },
@@ -204,10 +204,10 @@
       "name": "Masjid Bilal",
       "slug": "masjid-bilal",
       "jamah": {
-        "fajr": "06:30",
+        "fajr": "06:45",
         "zuhr": "13:15",
         "asr": "15:00",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "19:15"
       }
     },
@@ -218,7 +218,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:00"
       }
     },
@@ -229,7 +229,7 @@
         "fajr": "06:15",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "18:50"
       }
     },
@@ -237,10 +237,10 @@
       "name": "Masjid-e-Ali",
       "slug": "masjid-e-ali",
       "jamah": {
-        "fajr": "05:32",
+        "fajr": "05:33",
         "zuhr": "11:47",
         "asr": "",
-        "magrib": "16:41",
+        "magrib": "16:39",
         "isha": ""
       }
     },
@@ -251,7 +251,7 @@
         "fajr": "06:30",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "19:30"
       }
     },
@@ -262,7 +262,7 @@
         "fajr": "06:30",
         "zuhr": "13:00",
         "asr": "15:00",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "19:30"
       }
     },
@@ -273,7 +273,7 @@
         "fajr": "06:20",
         "zuhr": "12:30",
         "asr": "15:00",
-        "magrib": "16:27",
+        "magrib": "16:25",
         "isha": "19:30"
       }
     },
@@ -283,8 +283,8 @@
       "jamah": {
         "fajr": "06:30",
         "zuhr": "13:15",
-        "asr": "14:50",
-        "magrib": "16:29",
+        "asr": "14:45",
+        "magrib": "16:27",
         "isha": "18:45"
       }
     },
@@ -295,13 +295,13 @@
         "fajr": "06:15",
         "zuhr": "13:15",
         "asr": "15:15",
-        "magrib": "16:29",
+        "magrib": "16:27",
         "isha": "18:00"
       }
     }
   ],
   "tomorrow": {
-    "date": "08-11-2026",
+    "date": "09-11-2026",
     "mosques": [
       {
         "name": "Al Furqan",
@@ -361,12 +361,12 @@
       {
         "name": "Jamia Islamia Ghousia Trust",
         "slug": "jamia-islamia-ghousia-trust",
-        "fajr": "06:15"
+        "fajr": "06:30"
       },
       {
         "name": "Kokni Masjid",
         "slug": "kokni-masjid",
-        "fajr": "06:15"
+        "fajr": "05:15"
       },
       {
         "name": "Leagrave Hall Masjid",
@@ -381,7 +381,7 @@
       {
         "name": "Luton Islamic Centre",
         "slug": "luton-islamic-centre",
-        "fajr": "06:05"
+        "fajr": "06:07"
       },
       {
         "name": "Masjid Al-Huda",
@@ -401,22 +401,22 @@
       {
         "name": "Masjid Irshad",
         "slug": "masjid-irshad",
-        "fajr": "06:15"
+        "fajr": "06:30"
       },
       {
         "name": "Masjid Suffa-Tul-Islam",
         "slug": "masjid-suffa-tul-islam",
-        "fajr": "06:15"
+        "fajr": "06:30"
       },
       {
         "name": "Masjid-e-Ali",
         "slug": "masjid-e-ali",
-        "fajr": "05:33"
+        "fajr": "05:35"
       },
       {
         "name": "Masjid-e-Noor",
         "slug": "masjid-e-noor",
-        "fajr": "06:30"
+        "fajr": "06:45"
       },
       {
         "name": "Saints Area Masjid",
@@ -436,7 +436,7 @@
       {
         "name": "Zuhri Academy",
         "slug": "zuhri-academy",
-        "fajr": "06:15"
+        "fajr": "06:30"
       }
     ]
   }
