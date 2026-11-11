@@ -2,23 +2,6 @@
   "mosqueName": "Al Furqan",
   "timings": [
     {
-      "day": "Tuesday",
-      "date": "10-11-2026",
-      "fajr": "06:15",
-      "zuhr": "12:45",
-      "asr": "14:45",
-      "magrib": "16:24",
-      "isha": "20:00",
-      "sunrise": "07:11",
-      "begins": {
-        "fajr": "05:33",
-        "zuhr": "11:51",
-        "asr": "13:53",
-        "magrib": "16:22",
-        "isha": "17:51"
-      }
-    },
-    {
       "day": "Wednesday",
       "date": "11-11-2026",
       "fajr": "06:15",
@@ -34,8 +17,25 @@
         "magrib": "16:20",
         "isha": "17:50"
       }
+    },
+    {
+      "day": "Thursday",
+      "date": "12-11-2026",
+      "fajr": "06:15",
+      "zuhr": "12:45",
+      "asr": "14:45",
+      "magrib": "16:21",
+      "isha": "20:00",
+      "sunrise": "07:15",
+      "begins": {
+        "fajr": "05:37",
+        "zuhr": "11:51",
+        "asr": "13:51",
+        "magrib": "16:19",
+        "isha": "17:48"
+      }
     }
   ],
-  "lastChecked": "2026-11-10T05:25:23.671Z",
+  "lastChecked": "2026-11-11T03:55:12.622Z",
   "isStale": false
 }
