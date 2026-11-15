@@ -2,15 +2,6 @@
   "mosqueName": "Bait Ul Abrar Jamia Masjid",
   "timings": [
     {
-      "day": "Saturday",
-      "date": "14-11-2026",
-      "fajr": "06:30",
-      "zuhr": "13:00",
-      "asr": "15:00",
-      "magrib": "16:18",
-      "isha": "19:30"
-    },
-    {
       "day": "Sunday",
       "date": "15-11-2026",
       "fajr": "06:45",
@@ -18,8 +9,17 @@
       "asr": "15:00",
       "magrib": "16:17",
       "isha": "19:30"
+    },
+    {
+      "day": "Monday",
+      "date": "16-11-2026",
+      "fajr": "06:45",
+      "zuhr": "13:00",
+      "asr": "15:00",
+      "magrib": "16:15",
+      "isha": "19:30"
     }
   ],
-  "lastChecked": "2026-11-14T04:16:27.020Z",
+  "lastChecked": "2026-11-15T03:59:42.747Z",
   "isStale": false
 }
