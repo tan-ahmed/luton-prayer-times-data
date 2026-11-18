@@ -8,7 +8,14 @@
       "zuhr": "13:00",
       "asr": "15:00",
       "magrib": "16:13",
-      "isha": "19:30"
+      "isha": "19:30",
+      "begins": {
+        "fajr": "05:27",
+        "zuhr": "11:56",
+        "asr": "14:19",
+        "magrib": "16:08",
+        "isha": "17:27"
+      }
     },
     {
       "day": "Thursday",
@@ -20,6 +27,6 @@
       "isha": "19:30"
     }
   ],
-  "lastChecked": "2026-11-18T05:18:48.583Z",
+  "lastChecked": "2026-11-18T15:20:13.020Z",
   "isStale": false
 }
