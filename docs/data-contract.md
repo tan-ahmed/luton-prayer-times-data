@@ -138,7 +138,7 @@ Notes:
 | Source key in `mosque-urls.ts` | Begins mapping |
 |--------------------------------|----------------|
 | `wpUrl` | `*_begins` + `asr_mithl_*` + `sunrise` |
-| `supabaseUrl` | Same DPT field names as WordPress |
+| `supabaseUrl` | Same DPT field names as WordPress (Bury Park); Masjid Irshad uses `MasjidIrshadTimes` PascalCase columns + 12h afternoon clocks |
 | `masjidBoxApi` | Top-level timetable athan → `begins`; `iqamah` → jamah; + `sunrise` (single Asr begin only) |
 
 InspireFM HTML (`url`), Google Sheets, Mawaqit, and bespoke `websiteUrl` scrapers currently emit **jamah only**.
@@ -160,7 +160,6 @@ Use this when deciding whether to fall back to another calendar (e.g. Aladhan) f
 | `luton-central-masjid` | Luton Central Masjid | Falls through to InspireFM; `masjidBoxApi` is a page URL, not the JSON API |
 | `masjid-al-huda` | Masjid Al-Huda | InspireFM only (jamah only) |
 | `masjid-as-sunnah` | Masjid As-Sunnah | Has `wpUrl` (would support begins) but scrape currently invalid/stale — file still jamah-only |
-| `masjid-irshad` | Masjid Irshad | Website scraper (jamah only) |
 | `masjid-e-ali` | Masjid-e-Ali | Website scraper (jamah only) |
 | `yusuf-hall` | Yusuf Hall | InspireFM only (jamah only) |
 | `turkish-community-assoc` | Turkish Community Assoc | InspireFM only (jamah only) |
