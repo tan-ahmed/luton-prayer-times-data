@@ -2,22 +2,21 @@
   "mosqueName": "Jamia Islamia Ghousia Trust",
   "timings": [
     {
-      "day": "Friday",
-      "date": "20-11-2026",
-      "fajr": "06:45",
-      "zuhr": "13:00",
-      "asr": "14:45",
-      "magrib": "16:08",
-      "isha": "18:30"
-    },
-    {
       "day": "Saturday",
       "date": "21-11-2026",
       "fajr": "06:45",
       "zuhr": "13:00",
       "asr": "14:45",
       "magrib": "16:07",
-      "isha": "18:30"
+      "isha": "18:30",
+      "sunrise": "07:31",
+      "begins": {
+        "fajr": "05:51",
+        "zuhr": "11:52",
+        "asr": "14:16",
+        "magrib": "16:07",
+        "isha": "17:38"
+      }
     },
     {
       "day": "Sunday",
@@ -26,7 +25,15 @@
       "zuhr": "13:00",
       "asr": "14:45",
       "magrib": "16:06",
-      "isha": "18:30"
+      "isha": "18:30",
+      "sunrise": "07:32",
+      "begins": {
+        "fajr": "05:53",
+        "zuhr": "11:53",
+        "asr": "14:15",
+        "magrib": "16:06",
+        "isha": "17:38"
+      }
     },
     {
       "day": "Monday",
@@ -35,7 +42,15 @@
       "zuhr": "13:00",
       "asr": "14:30",
       "magrib": "16:05",
-      "isha": "18:30"
+      "isha": "18:30",
+      "sunrise": "07:34",
+      "begins": {
+        "fajr": "05:54",
+        "zuhr": "11:53",
+        "asr": "14:14",
+        "magrib": "16:05",
+        "isha": "17:37"
+      }
     },
     {
       "day": "Tuesday",
@@ -44,7 +59,15 @@
       "zuhr": "13:00",
       "asr": "14:30",
       "magrib": "16:04",
-      "isha": "18:30"
+      "isha": "18:30",
+      "sunrise": "07:36",
+      "begins": {
+        "fajr": "05:56",
+        "zuhr": "11:53",
+        "asr": "14:13",
+        "magrib": "16:04",
+        "isha": "17:36"
+      }
     },
     {
       "day": "Wednesday",
@@ -52,8 +75,16 @@
       "fajr": "06:45",
       "zuhr": "13:00",
       "asr": "14:30",
-      "magrib": "16:03",
-      "isha": "18:30"
+      "magrib": "16:01",
+      "isha": "18:30",
+      "sunrise": "07:38",
+      "begins": {
+        "fajr": "05:58",
+        "zuhr": "11:54",
+        "asr": "14:12",
+        "magrib": "16:01",
+        "isha": "17:55"
+      }
     },
     {
       "day": "Thursday",
@@ -61,8 +92,16 @@
       "fajr": "06:45",
       "zuhr": "13:00",
       "asr": "14:30",
-      "magrib": "16:02",
-      "isha": "18:30"
+      "magrib": "16:01",
+      "isha": "18:30",
+      "sunrise": "07:40",
+      "begins": {
+        "fajr": "06:00",
+        "zuhr": "11:54",
+        "asr": "14:11",
+        "magrib": "16:01",
+        "isha": "17:54"
+      }
     },
     {
       "day": "Friday",
@@ -70,37 +109,18 @@
       "fajr": "06:45",
       "zuhr": "13:00",
       "asr": "14:30",
-      "magrib": "16:01",
-      "isha": "18:30"
-    },
-    {
-      "day": "Saturday",
-      "date": "28-11-2026",
-      "fajr": "06:45",
-      "zuhr": "13:00",
-      "asr": "14:30",
       "magrib": "16:00",
-      "isha": "18:30"
-    },
-    {
-      "day": "Sunday",
-      "date": "29-11-2026",
-      "fajr": "06:45",
-      "zuhr": "13:00",
-      "asr": "14:30",
-      "magrib": "15:39",
-      "isha": "18:30"
-    },
-    {
-      "day": "Monday",
-      "date": "30-11-2026",
-      "fajr": "07:00",
-      "zuhr": "13:00",
-      "asr": "14:30",
-      "magrib": "15:38",
-      "isha": "18:30"
+      "isha": "18:30",
+      "sunrise": "07:41",
+      "begins": {
+        "fajr": "06:01",
+        "zuhr": "11:55",
+        "asr": "14:10",
+        "magrib": "16:00",
+        "isha": "17:54"
+      }
     }
   ],
-  "lastChecked": "2026-11-21T04:56:37.597Z",
+  "lastChecked": "2026-11-21T19:31:06.108Z",
   "isStale": false
 }

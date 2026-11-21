@@ -152,7 +152,6 @@ Use this when deciding whether to fall back to another calendar (e.g. Aladhan) f
 | Slug | Mosque | Why no `begins` yet |
 |------|--------|---------------------|
 | `bait-ul-abrar-jamia-masjid` | Bait Ul Abrar Jamia Masjid | InspireFM / website scraper (jamah only) |
-| `faizan-e-mushkil-kusha` | Faizan-e-Mushkil Kusha | InspireFM / website scraper (jamah only) |
 | `farley-hill-masjid` | Farley Hill Masjid | Google Sheet CSV (jamah only) |
 | `jamia-islamia-ghousia-trust` | Jamia Islamia Ghousia Trust | InspireFM only (jamah only) |
 | `jamia-al-akbaria` | Jamia Al-Akbaria | Google Sheet CSV (jamah only) |
@@ -166,7 +165,7 @@ Use this when deciding whether to fall back to another calendar (e.g. Aladhan) f
 | `luton-islamic-centre` | Luton Islamic Centre | Mawaqit (jamah only so far) |
 | `lewsey-community-centre` | Lewsey Community Centre | No timings (`hasData: false`) |
 
-Re-check after refreshes: a mosque gains `begins` once its successful source is one of `wpUrl` / `supabaseUrl` / working `masjidBoxApi`.
+Re-check after refreshes: a mosque gains `begins` once its successful source is one of `wpUrl` / `supabaseUrl` / working `masjidBoxApi` / AirMyPrayer (Faizan).
 
 ---
 
