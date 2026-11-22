@@ -1,6 +1,6 @@
 {
   "date": "22-11-2026",
-  "lastUpdated": "2026-11-22T04:17:14.248Z",
+  "lastUpdated": "2026-11-22T13:50:25.666Z",
   "mosques": [
     {
       "name": "Al Furqan",
@@ -176,6 +176,17 @@
         "asr": "13:57",
         "magrib": "16:10",
         "isha": "17:28"
+      }
+    },
+    {
+      "name": "Madinah Masjid",
+      "slug": "madinah-masjid",
+      "jamah": {
+        "fajr": "06:45",
+        "zuhr": "13:00",
+        "asr": "14:45",
+        "magrib": "16:07",
+        "isha": "19:30"
       }
     },
     {
@@ -377,6 +388,11 @@
         "name": "Luton Islamic Centre",
         "slug": "luton-islamic-centre",
         "fajr": "06:28"
+      },
+      {
+        "name": "Madinah Masjid",
+        "slug": "madinah-masjid",
+        "fajr": "06:45"
       },
       {
         "name": "Masjid Al-Huda",
