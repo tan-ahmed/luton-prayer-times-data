@@ -1,6 +1,6 @@
 {
   "date": "24-11-2026",
-  "lastUpdated": "2026-11-24T07:44:48.870Z",
+  "lastUpdated": "2026-11-24T16:51:40.636Z",
   "mosques": [
     {
       "name": "Al Furqan",
@@ -66,6 +66,17 @@
         "asr": "14:50",
         "magrib": "16:05",
         "isha": "19:00"
+      }
+    },
+    {
+      "name": "Faizan-e-Mushkil Kusha",
+      "slug": "faizan-e-mushkil-kusha",
+      "jamah": {
+        "fajr": "07:00",
+        "zuhr": "13:35",
+        "asr": "14:45",
+        "magrib": "16:06",
+        "isha": "19:50"
       }
     },
     {
@@ -332,6 +343,11 @@
         "name": "Dunstable Masjid",
         "slug": "dunstable-masjid",
         "fajr": "06:30"
+      },
+      {
+        "name": "Faizan-e-Mushkil Kusha",
+        "slug": "faizan-e-mushkil-kusha",
+        "fajr": "07:00"
       },
       {
         "name": "Farley Hill Masjid",
